@@ -1,4 +1,4 @@
-package Model;
+package com.cs4013.Model;
 
 public class ThripleRoom extends Room{
     public ThripleRoom(String hotelId){
@@ -9,7 +9,7 @@ public class ThripleRoom extends Room{
     }
 
     @Override
-    public bookRoom(String userId, long checkInTime, long checkOutTime){
+    public void bookRoom(String userId, long checkInTime, long checkOutTime){
      
     }
     

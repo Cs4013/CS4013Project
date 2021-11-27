@@ -1,15 +1,15 @@
-package Model;
+package com.cs4013.Model;
 
 public class SingleRoom extends Room{
-    public SingleRoom(String hotedId){
-        super(hotedId);
+    public SingleRoom(String hotelId){
+        super(hotelId);
         this.type = "Single";
         this.minOccupancy = 1;
         this.maxOccupancy = 1;
     }
 
     @Override
-    public bookRoom(String userId, long checkInTime, long checkOutTime){
+    public void bookRoom(String userId, long checkInTime, long checkOutTime){
         
     }
 

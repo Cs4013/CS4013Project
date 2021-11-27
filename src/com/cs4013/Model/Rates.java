@@ -1,4 +1,4 @@
-package Model;
+package com.cs4013.Model;
 
 public class Rates{
     private int monday;

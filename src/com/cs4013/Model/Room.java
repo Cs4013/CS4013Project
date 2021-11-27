@@ -1,9 +1,7 @@
-package Model;
+package com.cs4013.Model;
 
 import java.io.IOException;
 import java.util.*;
-
-import Misc.FileManager;
 
 public abstract class Room{
     protected String roomId;
@@ -60,11 +58,9 @@ public abstract class Room{
         return bookings;
     }
 
-    pubic void setBookings(ArrayList<Booking> bookings){}
+    public void setBookings(ArrayList<Booking> bookings){
         this.bookings = bookings;
     }
-
-
 }
 
 

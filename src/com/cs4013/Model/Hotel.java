@@ -37,6 +37,7 @@ public class Hotel{
         this.rooms = rooms;
     }
     public String getName(){
+        Object b;
         return this.name;
     }
     public void setName(String name){
