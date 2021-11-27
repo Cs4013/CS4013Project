@@ -11,5 +11,5 @@ public class Booking {
     private String keyCard;
     private String checkInDate;
     private String checkOutDate;
-    private double payments;
+    
 }
