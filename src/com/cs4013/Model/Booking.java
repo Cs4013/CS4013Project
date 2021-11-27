@@ -1,5 +1,6 @@
 package com.cs4013.Model;
 
+
 import java.util.UUID;
 
 public class Booking {
@@ -9,8 +10,6 @@ public class Booking {
     private long checkOutDate;
     private String roomId;
     private String hotelId;
-    private String price;
-    private String keyCard;
 
     public Booking() {
     }
@@ -81,24 +80,9 @@ public class Booking {
         this.hotelId = hotelId;
     }
 
-    public String getPrice() {
-        return price;
+    public String toString(){
+        return bookingId+","+userId+","+roomId+","+hotelId+","+checkInTime+","+checkOutDate;
     }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public String getKeyCard() {
-        return keyCard;
-    }
-
-    public void setKeyCard(String keyCard) {
-        this.keyCard = keyCard;
-    }
-
-
-
 
 
 }
