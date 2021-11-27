@@ -35,7 +35,7 @@ public class Main {
         //args[0] = -g / -a / --
 
         boolean admin = false;
-        9
+
 
         if (args.length > 0) {
             if (args[0].equals("-a")) {
