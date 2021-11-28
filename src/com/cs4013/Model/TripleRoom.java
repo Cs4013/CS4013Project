@@ -1,9 +1,9 @@
 package com.cs4013.Model;
 
-public class ThripleRoom extends Room{
-    public ThripleRoom(String hotelId){
+public class TripleRoom extends Room{
+    public TripleRoom(String hotelId){
         super(hotelId);
-        this.type = "Thriple";
+        this.type = "Triple";
         this.minOccupancy = 1;
         this.maxOccupancy = 3;
     }

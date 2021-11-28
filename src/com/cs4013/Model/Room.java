@@ -61,6 +61,8 @@ public abstract class Room{
     public void setBookings(ArrayList<Booking> bookings){
         this.bookings = bookings;
     }
-}
+
+    public abstract void bookRoom(String userId, long checkInTime, long checkOutTime);
+    }
 
 
