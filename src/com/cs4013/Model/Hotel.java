@@ -1,16 +1,17 @@
-public class Hotel{
+public class Hotel {
     private String hotelId;
     private String ratings;
     private ArrayList<Room> rooms;
     private String name;
 
-    public Hotel(){ 
+    public Hotel() {
         this.hotelId = "";
-        this.ratings ="3-Star";
+        this.ratings = "3-Star";
         this.rooms = new ArrayList<>();
         this.name = "Unknown";
     }
-    public Hotel(String hotelId, String ratings, ArrayList<Room> rooms, String name){
+
+    public Hotel(String hotelId, String ratings, ArrayList<Room> rooms, String name) {
         this.hotelId = hotelId;
         this.ratings = ratings;
         this.rooms = rooms;
@@ -18,28 +19,35 @@ public class Hotel{
 
     }
 
-    public String getHotelId(){
+    public String getHotelId() {
         return this.hotelId;
     }
-    public void setHotelId(String hotelId){
+
+    public void setHotelId(String hotelId) {
         this.hotelId = hotelId;
     }
-    public String getRatings(){
+
+    public String getRatings() {
         return this.ratings;
     }
-    public void setRatings(String ratings){
+
+    public void setRatings(String ratings) {
         this.ratings = ratings;
     }
-    public ArrayList<Room> getRooms(){
+
+    public ArrayList<Room> getRooms() {
         return this.rooms;
     }
-    public void setRooms(ArrayList<Room> rooms){
+
+    public void setRooms(ArrayList<Room> rooms) {
         this.rooms = rooms;
     }
-    public String getName(){
+
+    public String getName() {
         Object b;
         return this.name;
     }
+
     public void setName(String name){
         this.name;
     }
