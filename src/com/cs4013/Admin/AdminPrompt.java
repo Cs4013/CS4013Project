@@ -1,6 +1,8 @@
 package com.cs4013.Admin;
 
 import com.cs4013.Interface.IPrompt;
+import com.cs4013.Misc.StringUtils;
+import com.cs4013.Misc.TerminalColor;
 import com.cs4013.Misc.TerminalLogger;
 
 import java.util.*;
@@ -14,7 +16,7 @@ public class AdminPrompt implements IPrompt {
     Scanner sc = new Scanner(System.in);
     ArrayList<String> prevPath = new ArrayList<String>();
     int width = 50;
-
+    private RoomManager roomManager = new RoomManager();
 
     public AdminPrompt(){
         populateNavStack();
@@ -27,10 +29,10 @@ public class AdminPrompt implements IPrompt {
 
         definition.put("AR","Enter AR to Add Rooms");
         definition.put("ER","Enter ER to Edit Rooms");
-        definition.put("Dr","Enter DR to Delete rooms");
-        definition.put("VR","Enter to View Rooms");
+        definition.put("DR","Enter DR to Delete rooms");
+        definition.put("VR","Enter VR to View Rooms");
 
-        definition.put("","");
+        
 
         ArrayList<String> init = new ArrayList<>();
         init.add("MR");
@@ -48,7 +50,7 @@ public class AdminPrompt implements IPrompt {
 
          init = new ArrayList<>();
 
-        
+
          navStack.put("AR",init);
 
          
@@ -57,23 +59,20 @@ public class AdminPrompt implements IPrompt {
     }
     public void printDefiniton(String command){
         for(String s : navStack.get(command)){
-           TerminalLogger.logln(definition.get(s));
+           TerminalLogger.logln(definition.get(s), TerminalColor.ANSI_CYAN);
         }
             
             
     }
     public void addRoom(){
-
+        roomManager.addRoom();
     }
            
-
-     
-
 
     @Override
     public void  display(String command){
         switch(command){
-            case "Ar": 
+            case "AR": 
             addRoom();
             break;
             default:
@@ -97,7 +96,7 @@ public class AdminPrompt implements IPrompt {
                 if(navStack.get(currentPath).contains(input)){
 
                     prevPath.add(currentPath);
-                    currentPath = command;
+                    currentPath = input;
     
                 }
                 else{
@@ -111,6 +110,10 @@ public class AdminPrompt implements IPrompt {
         
         
     public void execute(){
+
+        TerminalLogger.logln("=".repeat(width));
+        TerminalLogger.log(StringUtils.centerString("Admin Control Center", 50, "|"));
+        TerminalLogger.logln("=".repeat(width)+ "\n");
         while(keepGoing){
             display(currentPath);
             if(!keepGoing){

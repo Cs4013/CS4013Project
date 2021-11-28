@@ -1,5 +1,9 @@
 package com.cs4013;
 
+import com.cs4013.Admin.AdminPrompt;
+import com.cs4013.Customer.CustomerPrompt;
+import com.cs4013.Interface.IPrompt;
+
 /**
  * Main
  * This class is the main entry point for the application
@@ -47,19 +51,20 @@ public class Main {
         }
 
         if (admin) {
-            runAsAdmin();
+            runAsAdmin(new AdminPrompt());
         } else {
-            runAsCustomer();
+            runAsCustomer(new CustomerPrompt());
         }
 
     }
 
-    public static void runAsCustomer() {
+    public static void runAsCustomer(IPrompt prompt) {
         System.out.println("Running as customer");
+        prompt.execute();
     }
 
-    public static void runAsAdmin() {
+    public static void runAsAdmin(IPrompt prompt) {
         System.out.println("Running as admin");
-
+        prompt.execute();
     }
 }

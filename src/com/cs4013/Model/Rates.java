@@ -20,7 +20,7 @@ public class Rates{
     public Rates(){
         this.monday = 0;
         this.tuesday = 0;
-        this.wednesday 0;
+        this.wednesday = 0;
         this.thursday = 0;
         this.friday = 0;
         this.saturday = 0;
@@ -41,7 +41,7 @@ public class Rates{
     public int getWednesday(){
         return wednesday;
     }
-    public void setTuesday(int wednesday){
+    public void setWednesday(int wednesday){
         this.wednesday = wednesday;
     }
     public int getThursday(){

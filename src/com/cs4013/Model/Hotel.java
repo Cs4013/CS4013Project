@@ -1,3 +1,7 @@
+package com.cs4013.Model;
+
+import java.util.ArrayList;
+
 public class Hotel {
     private String hotelId;
     private String ratings;
@@ -41,15 +45,6 @@ public class Hotel {
 
     public void setRooms(ArrayList<Room> rooms) {
         this.rooms = rooms;
-    }
-
-    public String getName() {
-        Object b;
-        return this.name;
-    }
-
-    public void setName(String name){
-        this.name;
     }
 
 }
