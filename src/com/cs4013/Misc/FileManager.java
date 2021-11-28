@@ -9,9 +9,19 @@ import java.util.Scanner;
 public class FileManager {
    private String filename = "";
 
+   /**
+    * This class takes any file path @param filename and does various operations
+    * @method readCSV reads a CSV file and stores the data in a 2d Arraylist
+    * @method readLines reads the file line by line and  stores the data in an Arraylist
+    * */
    public FileManager(String filename){
        this.filename = filename;
    }
+
+   /**
+    * @method readCsv we create an array list and call the instance of the array list then we check if it exists
+    * we read the file
+    * */
 
    public ArrayList<ArrayList<String>> readCsv() throws IOException {
        ArrayList<ArrayList<String>> data= new ArrayList<>();
