@@ -1,6 +1,11 @@
 package com.cs4013;
 
+import java.io.IOException;
+
+import javax.security.auth.login.LoginContext;
+
 import com.cs4013.Admin.AdminPrompt;
+import com.cs4013.Authentication.Login;
 import com.cs4013.Customer.CustomerPrompt;
 import com.cs4013.Interface.IPrompt;
 
@@ -34,7 +39,8 @@ import com.cs4013.Interface.IPrompt;
  */
 public class Main {
 
-    public static void main(String[] args) {
+    static Login login = new Login();
+    public static void main(String[] args)throws IOException {
         // write your code here
         //args[0] = -g / -a / --
 
@@ -58,13 +64,22 @@ public class Main {
 
     }
 
-    public static void runAsCustomer(IPrompt prompt) {
+    public static void runAsCustomer(IPrompt prompt) throws IOException{
         System.out.println("Running as customer");
-        prompt.execute();
+
+        if(login.loginAsCustomer()){
+            prompt.execute();
     }
+        }
+        
 
     public static void runAsAdmin(IPrompt prompt) {
         System.out.println("Running as admin");
-        prompt.execute();
+
+        
+        if(login.loginAsAdmin()){
+            prompt.execute();
+        }
+        
     }
 }
