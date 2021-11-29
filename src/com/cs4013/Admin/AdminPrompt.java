@@ -72,8 +72,8 @@ public class AdminPrompt implements IPrompt {
             
             
     }
-    public void addRoom()throws IOException{
-        roomManager.addRoom();
+    public boolean addRoom()throws IOException{
+        return roomManager.addRoom();
     }
     public void editRoom(){
 
@@ -84,13 +84,24 @@ public class AdminPrompt implements IPrompt {
     public void viewRoom(){
 
     }  
+    public void goBack(){
+        if(prevPath.size() > 0){
+            currentPath = prevPath.remove(prevPath.size()-1);
+        }
+        else{
+            keepGoing = false;
+        }
+    }
 
     @Override
     public void  display(String command){
         switch(command){
             case "AR": 
             try{
-                addRoom();
+               if(!addRoom()){
+                    goBack();
+               }
+               
             }catch(IOException e){
 
             }
@@ -107,12 +118,7 @@ public class AdminPrompt implements IPrompt {
                     keepGoing = false;
                 }
                 else{
-                    if(prevPath.size() > 0){
-                        currentPath = prevPath.remove(prevPath.size()-1);
-                    }
-                    else{
-                        keepGoing = false;
-                    }
+                    goBack();
                 }
                
             }
