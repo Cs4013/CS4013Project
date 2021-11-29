@@ -70,7 +70,7 @@ public class FileManager {
 
         return data;
     }
-    public void Write(String writing)throws IOException{
+    public void write(String writing)throws IOException{
         File file = new File("./src/com/cs4013/Misc/"+filename);
         PrintWriter words = new PrintWriter(file);
         words.append(writing);
