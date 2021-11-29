@@ -15,18 +15,7 @@ import com.cs4013.Misc.TerminalLogger;
  */
 public class Login {
 
-    public static void main(String[] args) {
-        boolean b= false;
-       while(b==false){
-           String input = TerminalLogger.textfield("Enter your age", 50);
-           if(input.matches("[0-9]+")){
-               TerminalLogger.logln("Age accepted");
-               b=true;
-
-           }
-
-       }
-    }
+   
     public Login(){
     }
     public boolean loginAsAdmin (){
@@ -44,7 +33,7 @@ public class Login {
                     success = true;
                     break;
                 }
-                TerminalLogger.logError("Incorrect Password, "+(i+1)+" Attempts Left!");
+                TerminalLogger.logError("Incorrect Password, "+((attempt-i)-1)+" Attempts Left!");
                 i++;
             }
         } catch (IOException e) {
@@ -77,7 +66,7 @@ public class Login {
                 }
             }else{
                 TerminalLogger.logError("User "+userName+ " does not exist");
-                String create = TerminalLogger.textfield("Do you want to create a username text y if yes and n if no", 50);
+                String create = TerminalLogger.textfield("Do you want to create an account text?ghy/n", 50);
                 if(create.equals("y")){
                     
                 }else if(create.equals("n")){

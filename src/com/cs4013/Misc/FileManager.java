@@ -3,6 +3,7 @@ package com.cs4013.Misc;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -25,8 +26,7 @@ public class FileManager {
 
    public ArrayList<ArrayList<String>> readCsv() throws IOException {
        ArrayList<ArrayList<String>> data= new ArrayList<>();
-
-       File file = new File(filename);
+       File file = new File("./src/com/cs4013/Misc/"+filename);
 
        if(file.exists()){
 
@@ -42,22 +42,20 @@ public class FileManager {
                data.add(temp);
            }
            fileReader.close();
+       }else{
+           TerminalLogger.logError("File not found: "+filename);
        }
 
        return data;
    }
     public ArrayList<String> readLine() throws IOException {
         ArrayList<String> data= new ArrayList<>();
-
-        File file = new File(filename);
-
+        File file = new File("./src/com/cs4013/Misc/"+filename);
         if(file.exists()){
 
             Scanner fileReader= new Scanner(file);
 
             while(fileReader.hasNext()){
-
-
                 //apple
                 //orange
                 //banana
@@ -65,6 +63,8 @@ public class FileManager {
                 data.add(line);
             }
             fileReader.close();
+        }else{
+            TerminalLogger.logError("File not found: "+filename);
         }
 
         return data;
