@@ -112,7 +112,7 @@ public class AdminPrompt implements IPrompt {
     public void execute(){
 
         TerminalLogger.logln("=".repeat(width));
-        TerminalLogger.log(StringUtils.centerString("Admin Control Center", 50, "|"));
+        TerminalLogger.logln(StringUtils.centerString("Admin Control Center", 50, "|"));
         TerminalLogger.logln("=".repeat(width)+ "\n");
         while(keepGoing){
             display(currentPath);
