@@ -70,6 +70,7 @@ public class BookingManager {
     //we firstly search for all the rooms in the hotels//
     //we then search for the rooms between the check in and check out date//
     //we specify if the rooms are booked or not//
+    //we display all the rooms//
 
 
     }
