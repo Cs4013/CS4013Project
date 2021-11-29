@@ -3,6 +3,7 @@ package com.cs4013.Misc;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -68,5 +69,13 @@ public class FileManager {
         }
 
         return data;
+    }
+    public void Write(String writing)throws IOException{
+        File file = new File("./src/com/cs4013/Misc/"+filename);
+        PrintWriter words = new PrintWriter(file);
+        words.append(writing);
+        words.close();
+
+        
     }
 }
