@@ -5,6 +5,7 @@ import com.cs4013.Misc.StringUtils;
 import com.cs4013.Misc.TerminalColor;
 import com.cs4013.Misc.TerminalLogger;
 
+import java.io.IOException;
 import java.util.*;
 
 public class AdminPrompt implements IPrompt {
@@ -46,12 +47,19 @@ public class AdminPrompt implements IPrompt {
          init.add("DR");
          init.add("VR");
          navStack.put("MR",init);
-         //ah eh dh
+         
 
          init = new ArrayList<>();
 
 
-         navStack.put("AR",init);
+         navStack.put("MH",init);
+
+         init = new ArrayList<>();
+
+         navStack.put("AH",init);
+
+
+
 
          
 
@@ -64,17 +72,44 @@ public class AdminPrompt implements IPrompt {
             
             
     }
-    public void addRoom(){
-        roomManager.addRoom();
+    public boolean addRoom()throws IOException{
+        return roomManager.addRoom();
     }
-           
+    public void editRoom(){
+
+    }
+    public void deleteRoom(){
+
+    }
+    public void viewRoom(){
+
+    }  
+    public void goBack(){
+        if(prevPath.size() > 0){
+            currentPath = prevPath.remove(prevPath.size()-1);
+        }
+        else{
+            keepGoing = false;
+        }
+    }
 
     @Override
     public void  display(String command){
         switch(command){
             case "AR": 
-            addRoom();
+            try{
+               if(!addRoom()){
+                    goBack();
+               }
+               
+            }catch(IOException e){
+
+            }
             break;
+            case "EH":
+            editRoom();
+            case "VH":
+            viewRoom();
             default:
             printDefiniton(command);
             String input = TerminalLogger.textfield("Enter Here", width);
@@ -83,12 +118,7 @@ public class AdminPrompt implements IPrompt {
                     keepGoing = false;
                 }
                 else{
-                    if(prevPath.size() > 0){
-                        currentPath = prevPath.remove(prevPath.size()-1);
-                    }
-                    else{
-                        keepGoing = false;
-                    }
+                    goBack();
                 }
                
             }

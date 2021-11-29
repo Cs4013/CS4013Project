@@ -1,5 +1,7 @@
 package com.cs4013.Model;
 
+import com.cs4013.Misc.FileManager;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -12,7 +14,7 @@ public abstract class Room{
     protected int maxOccupancy;
     protected ArrayList<Booking> bookings;
 
-    public Room(String hotedId){
+    public Room(String hotelId){
         this.roomId = UUID.randomUUID().toString();
         this.type = "";
         this.rate = new Rates();
@@ -63,6 +65,24 @@ public abstract class Room{
     }
 
     public abstract void bookRoom(String userId, long checkInTime, long checkOutTime);
+
+    public void addRoom()throws IOException{
+
+        FileManager fm = new FileManager("rooms.csv");
+        //fm.write(this.toString());
+    }
+
+    public String toString(){
+        String bks="";
+        for (Booking b : bookings){
+            bks+=b.toString()+"_";
+        }
+        String B = "";
+        if(!bks.equals("")){
+            B = bks.substring(0,bks.length()-1);
+        }
+        return roomId+","+hotelId+","+type+","+rate.toString("_")+","+minOccupancy+","+maxOccupancy+","+B;
+    }
     }
 
 
