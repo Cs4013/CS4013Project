@@ -1,5 +1,6 @@
 package com.cs4013;
 
+import java.io.FileReader;
 import java.io.IOException;
 
 import javax.security.auth.login.LoginContext;
@@ -8,6 +9,7 @@ import com.cs4013.Admin.AdminPrompt;
 import com.cs4013.Authentication.Login;
 import com.cs4013.Customer.CustomerPrompt;
 import com.cs4013.Interface.IPrompt;
+import com.cs4013.Misc.FileParser;
 
 /**
  * Main
@@ -55,6 +57,7 @@ public class Main {
                 System.exit(0);
             }
         }
+
 
         if (admin) {
             runAsAdmin(new AdminPrompt());
