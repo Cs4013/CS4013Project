@@ -56,6 +56,14 @@ public abstract class Room{
         return maxOccupancy;
     }
 
+    public void setMinOccupancy(int minOccupancy) {
+        this.minOccupancy = minOccupancy;
+    }
+
+    public void setMaxOccupancy(int maxOccupancy) {
+        this.maxOccupancy = maxOccupancy;
+    }
+
     public ArrayList<Booking> getBookings(){
         return bookings;
     }

@@ -139,6 +139,9 @@ public class RoomManager {
         else if(type.equals(roomType.get(3))){
             room = new QuadRoom("SmallerWilleh");
         }
+        room.setRate(rates);
+        room.setMaxOccupancy(maxO);
+        room.setMinOccupancy(minO);
 
         fileManager.write(room.toString());
         TerminalLogger.logln("✓".repeat(width),TerminalColor.ANSI_GREEN);
