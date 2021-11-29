@@ -66,9 +66,10 @@ public class Login {
                 }
             }else{
                 TerminalLogger.logError("User "+userName+ " does not exist");
-                String create = TerminalLogger.textfield("Do you want to create an account text?ghy/n", 50);
+                String create = TerminalLogger.textfield("Do you want to create an account text?y/n", 50);
                 if(create.equals("y")){
-                    
+                      success= new Register().addNewUser();
+                 
                 }else if(create.equals("n")){
 
                 }
