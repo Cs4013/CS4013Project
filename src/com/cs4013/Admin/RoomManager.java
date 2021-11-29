@@ -19,7 +19,8 @@ public class RoomManager {
     public RoomManager() {
     }
 
-    public void addRoom()throws IOException {
+    public boolean addRoom()throws IOException {
+        boolean keepGoing = false;
         TerminalLogger.logln("+".repeat(width));
         TerminalLogger.logln(StringUtils.centerString("Admin Control Centre | Add Room", 48, "|"));
         TerminalLogger.logln("+".repeat(width) + "\n");
@@ -31,8 +32,6 @@ public class RoomManager {
         roomType.add("Triple");
         roomType.add("Quad");
 
-        TerminalLogger.textfield("Enter Room Type", width);
-
 
         //ask for room type
         //occupancy min/max
@@ -43,12 +42,11 @@ public class RoomManager {
         int minO = 1;
         int maxO = 1;
         while (success == false){
-           TerminalLogger.logln("Enter Room Type"+ TerminalColor.ANSI_YELLOW+"(Single)"+TerminalColor.ANSI_RESET);
 
             for(int i=0; i < roomType.size();i++){
             TerminalLogger.logln((i+1)+") "+roomType.get(i));
         }
-        TerminalLogger.logln("");
+            TerminalLogger.logln("Enter Room Type"+ TerminalColor.ANSI_YELLOW+"(Single)"+TerminalColor.ANSI_RESET);
             input = TerminalLogger.textfield("Enter 1-"+roomType.size(),width);
             if(input.matches("[1-9]")) {
                 int n = Integer.parseInt(input);
@@ -146,6 +144,12 @@ public class RoomManager {
         TerminalLogger.logln("✓".repeat(width),TerminalColor.ANSI_GREEN);
         TerminalLogger.logln("Room Successfully Added", TerminalColor.ANSI_GREEN);
         TerminalLogger.logln("✓".repeat(width) + "\n",TerminalColor.ANSI_GREEN);
+
+        String s = TerminalLogger.textfield("Would you like to add another room? y/n",width);
+        if(s.equals("y")){
+            keepGoing = true;
+        }
+        return keepGoing;
     }
 
 

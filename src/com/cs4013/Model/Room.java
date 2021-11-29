@@ -77,7 +77,11 @@ public abstract class Room{
         for (Booking b : bookings){
             bks+=b.toString()+"_";
         }
-        return roomId+","+hotelId+","+type+","+rate.toString("_")+","+minOccupancy+","+maxOccupancy+","+bks.substring(0,bks.length()-1);
+        String B = "";
+        if(!bks.equals("")){
+            B = bks.substring(0,bks.length()-1);
+        }
+        return roomId+","+hotelId+","+type+","+rate.toString("_")+","+minOccupancy+","+maxOccupancy+","+B;
     }
     }
 
