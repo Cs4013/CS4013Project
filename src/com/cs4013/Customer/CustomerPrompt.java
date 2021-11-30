@@ -77,6 +77,11 @@ public class CustomerPrompt implements IPrompt {
     }
 
     public void viewRoom(){
+        ArrayList <String> bookingId = CurrentUser.user.reservations;
+        String Input = TerminalLogger.textfield("Do you want to see all approved reservations", 50);
+        
+
+
 
     }
     public void modifyReseversation(){
