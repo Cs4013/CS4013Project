@@ -1,12 +1,15 @@
 package com.cs4013.Admin;
 
 import com.cs4013.Interface.IPrompt;
-import com.cs4013.Misc.StringUtils;
-import com.cs4013.Misc.TerminalColor;
-import com.cs4013.Misc.TerminalLogger;
+import com.cs4013.Misc.*;
 import com.cs4013.Model.Hotel;
+import com.cs4013.Model.HotelAccount;
+import com.cs4013.Model.Room;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 /**AdminPrompt
@@ -108,7 +111,110 @@ public class AdminPrompt implements IPrompt {
             keepGoing = false;
         }
     }
+    public void analyzeHotel(){
 
+        boolean success = false;
+
+
+        //get check in date and check out date from user//
+        //make sure that both check in date and check out dates are valid in the format dd||mm||yyyy //
+        String input = "";
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        Date checkinDate=null,checkoutDate=null,today=null;
+
+        try {
+            checkinDate = format.parse(new SimpleDateFormat("dd/MM/yyyy").format(System.currentTimeMillis()));
+            checkoutDate = format.parse(new SimpleDateFormat("dd/MM/yyyy").format(System.currentTimeMillis()));
+            today = format.parse(new SimpleDateFormat("dd/MM/yyyy").format(System.currentTimeMillis()));
+
+        } catch (ParseException e) {
+
+        }
+        Calendar c = Calendar.getInstance();
+        c.setTime(checkinDate);
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
+        LocalDate cidDate = LocalDate.parse(format2.format(checkinDate));
+        LocalDate codDate = LocalDate.parse(format2.format(checkoutDate));
+
+
+        TerminalLogger.logln("+".repeat(50));
+        TerminalLogger.logln(StringUtils.centerString("Analysis For Hotels", 48, "|"));
+        TerminalLogger.logln("+".repeat(50) + "\n");
+
+//        while (success == false) {
+//
+//            input = TerminalLogger.textfield("Enter Check In date in format dd/mm/yyyy", 50);
+//            if (Formats.isValidDate(input)){
+//
+//                String [] temp = input.split("/");
+//                int d = Integer.parseInt(temp[0]);
+//                int m = Integer.parseInt(temp[1]);
+//                int y = Integer.parseInt(temp[2]);
+//                try {
+//                    checkinDate = format.parse(input);
+//                } catch (ParseException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//
+//            } else {
+//                TerminalLogger.logError("Invalid date format");
+//            }
+//
+//        }
+//        success = false;
+//        while (success == false) {
+//
+//            input = TerminalLogger.textfield("Enter Check Out date in format dd/mm/yyyy", 50);
+//            if (Formats.isValidDate(input)){
+//                String [] temp = input.split("/");
+//                int d = Integer.parseInt(temp[0]);
+//                int m = Integer.parseInt(temp[1]);
+//                int y = Integer.parseInt(temp[2]);
+//
+//                try {
+//                    checkoutDate = format.parse(input);
+//                } catch (ParseException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//                if (checkoutDate.after(checkinDate)){
+//                    success = true;
+//                }
+//                else{
+//                    TerminalLogger.logError("Please Enter a date past or equal to "+format.format(checkinDate));
+//                }
+//
+//
+//
+//            } else {
+//                TerminalLogger.logError("Invalid date format");
+//            }
+//
+//        }
+        //we firs
+        ArrayList<Hotel> hotels = new FileParser().getHotels();
+        ArrayList<Room> rooms = new FileParser().getRooms();
+
+        for(Hotel h : hotels){
+            TerminalLogger.logln("Hotel Analysis",TerminalColor.ANSI_CYAN);
+            TerminalLogger.logln("_".repeat(50));
+            TerminalLogger.logln("Name: "+h.getName());
+            TerminalLogger.logln("Ovr. Occupancy: "+h.getAccount().size());
+
+            int n = 0;
+            for(HotelAccount act : h.getAccount()){
+                n+=act.getAmountPayed();
+            }
+            TerminalLogger.logln("Avg. Rates: "+(n/Math.max(1,h.getAccount().size())));
+
+        }
+
+        TerminalLogger.logln("");
+
+        goBack();
+    }
     @Override
     public void  display(String command){
         switch(command){
@@ -122,6 +228,9 @@ public class AdminPrompt implements IPrompt {
 
             }
             break;
+            case "AH":
+                analyzeHotel();
+                break;
             case "ADH":
                 try{
                     if(!addHotel()){
