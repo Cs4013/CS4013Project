@@ -53,7 +53,7 @@ public class AdminPrompt implements IPrompt {
 
          init = new ArrayList<>();
 
-
+        
          navStack.put("MH",init);
 
          init = new ArrayList<>();
