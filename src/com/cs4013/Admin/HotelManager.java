@@ -41,7 +41,7 @@ public class HotelManager {
                 TerminalLogger.logError("Please enter Alpha-numeric or numeric characters!");
             }
         }
-
+        success = false;
         while (success == false) {
             input = TerminalLogger.textfield("Enter Rating", width);
             if (input.matches("[0-9A-Za-z\\s]+")) {

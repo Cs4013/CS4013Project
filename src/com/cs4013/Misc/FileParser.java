@@ -3,6 +3,7 @@ package com.cs4013.Misc;
 import com.cs4013.Model.*;
 
 import java.io.IOException;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -56,6 +57,39 @@ public class FileParser {
 
         }
         return rooms;
+    }
+    public ArrayList<Hotel> getHotels(){
+        ArrayList<Hotel> hotels = new ArrayList<>();
+
+        io = new FileManager("hotels.csv");
+        try{
+            ArrayList<ArrayList<String>> rms = io.readCsv();
+            for(ArrayList<String> r : rms){
+                Hotel hotel = new Hotel();
+                hotel.setHotelId(r.get(0));
+                hotel.setRatings(r.get(1));
+                hotel.setName(r.get(3));
+                ArrayList<HotelAccount> accounts = new ArrayList<>();
+                if(r.size() > 4){
+                    String[] ac = r.get(4) .split("_");
+                    for(String s : ac){
+                        String[] acc = r.get(4) .split(">");
+                        HotelAccount hotelAccount = new HotelAccount();
+                        hotelAccount.setHotelId(acc[0]);
+                        hotelAccount.setUserId(acc[1]);
+                        hotelAccount.setAmountPayed(Integer.parseInt((acc[0])));
+                        hotelAccount.setDatePayed(Long.parseLong(acc[0]));
+                        accounts.add(hotelAccount);
+                    }
+
+                }
+                hotel.setAccount(accounts);
+                hotels.add(hotel);
+            }
+        }catch(IOException e){
+
+        }
+        return hotels;
     }
     public ArrayList<Booking> getReservation(){
         ArrayList<Booking> bookings = new ArrayList<>();

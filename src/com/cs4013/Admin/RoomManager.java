@@ -1,9 +1,6 @@
 package com.cs4013.Admin;
 
-import com.cs4013.Misc.FileManager;
-import com.cs4013.Misc.StringUtils;
-import com.cs4013.Misc.TerminalColor;
-import com.cs4013.Misc.TerminalLogger;
+import com.cs4013.Misc.*;
 import com.cs4013.Model.*;
 
 import java.io.IOException;
@@ -105,7 +102,7 @@ public class RoomManager {
             input = TerminalLogger.textfield("Enter Mon-Tues-Wed-Thurs-Fri-Sat-Sun",width);
             String []temp = input.split("-");
             if(temp.length == 7){
-                if(input.matches("(([1-9]+)(-)?)+")) {
+                if(input.matches("(([0-9]+)(-)?)+")) {
                     rates = new Rates(
                             Integer.parseInt(temp[0]),
                             Integer.parseInt(temp[1]),
@@ -125,19 +122,49 @@ public class RoomManager {
             }
 
             }
+        ArrayList<Hotel> hotels = new FileParser().getHotels();
+        success = false;
+        String selectedHotel = "";
+        if(hotels.size()>0){
+            selectedHotel = hotels.get(0).getHotelId();
+        }
 
-        Room room = new SingleRoom("Willeh");
+        while(success == false){
+            TerminalLogger.logln("Select Hotel 1-"+hotels.size()+ TerminalColor.ANSI_YELLOW+"(1)"+TerminalColor.ANSI_RESET);
+            TerminalLogger.logln("*".repeat(width));
+            int i = 1;
+            for(Hotel s : hotels){
+                TerminalLogger.logln(i+") "+s.getName());
+            }
+            TerminalLogger.logln("*".repeat(width));
+            input = TerminalLogger.textfield("Enter 1-"+hotels.size(),width);
+            if(input.matches("[0-9]+")){
+                int n = Integer.parseInt(input);
+                if(n <= hotels.size()){
+                    selectedHotel = hotels.get(n-1).getHotelId();
+                    success = true;
+                }else{
+                    TerminalLogger.logError("Please Enter Between  1-"+hotels.size());
+                }
+            }else{
+                TerminalLogger.logError("Please Enter Between  1-"+hotels.size());
+            }
+
+        }
+
+
+        Room room = new SingleRoom(selectedHotel);
         if(type.equals(roomType.get(0))){
-            room = new SingleRoom("BigWilleh");
+            room = new SingleRoom(selectedHotel);
         }
         else if(type.equals(roomType.get(1))){
-            room = new DoubleRoom("SmallWilleh");
+            room = new DoubleRoom(selectedHotel);
         }
         else if(type.equals(roomType.get(2))){
-            room = new TripleRoom("BiggerWilleh");
+            room = new TripleRoom(selectedHotel);
         }
         else if(type.equals(roomType.get(3))){
-            room = new QuadRoom("SmallerWilleh");
+            room = new QuadRoom(selectedHotel);
         }
         room.setRate(rates);
         room.setMaxOccupancy(maxO);
