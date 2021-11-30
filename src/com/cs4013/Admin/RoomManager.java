@@ -48,9 +48,9 @@ public class RoomManager {
         }
             TerminalLogger.logln("Enter Room Type"+ TerminalColor.ANSI_YELLOW+"(Single)"+TerminalColor.ANSI_RESET);
             input = TerminalLogger.textfield("Enter 1-"+roomType.size(),width);
-            if(input.matches("[1-9]")) {
+            if(input.matches("[0-9]")) {
                 int n = Integer.parseInt(input);
-                if (n > 0 && n < roomType.size()) {
+                if (n > 0 && n <= roomType.size()) {
                     success = true;
                     type = roomType.get(n - 1);
                 }

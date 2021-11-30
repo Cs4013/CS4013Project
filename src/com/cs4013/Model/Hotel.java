@@ -57,4 +57,7 @@ public class Hotel {
         this.rooms = rooms;
     }
 
+    //create new variable
+    //amount paid
+    //
 }
