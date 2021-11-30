@@ -35,6 +35,11 @@ public class AdminPrompt implements IPrompt {
         definition.put("DR","Enter DR to Delete rooms");
         definition.put("VR","Enter VR to View Rooms");
 
+        definition.put("ADH","Enter ADH to Add Hotel");
+        definition.put("EH","Enter EH to Edit Hotel");
+        definition.put("DH","Enter DH to Delete Hotel");
+        definition.put("VH","Enter VH to View Hotel");
+
         
 
         ArrayList<String> init = new ArrayList<>();
@@ -53,7 +58,10 @@ public class AdminPrompt implements IPrompt {
 
          init = new ArrayList<>();
 
-
+        init.add("ADH");
+        init.add("EH");
+        init.add("DH");
+        init.add("VH");
          navStack.put("MH",init);
 
          init = new ArrayList<>();
@@ -111,7 +119,7 @@ public class AdminPrompt implements IPrompt {
 
             }
             break;
-            case "AH":
+            case "ADH":
                 try{
                     if(!addHotel()){
                         goBack();
