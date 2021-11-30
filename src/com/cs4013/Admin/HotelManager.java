@@ -44,7 +44,7 @@ public class HotelManager {
         success = false;
         while (success == false) {
             input = TerminalLogger.textfield("Enter Rating", width);
-            if (input.matches("[0-9A-Za-z\\s]+")) {
+            if (input.matches("[0-9A-Za-z\\s\\-]+")) {
                 rating = input;
                 success = true;
             } else {
@@ -82,15 +82,23 @@ public class HotelManager {
 
     public void edit(String hotelId, Hotel hotel)throws IOException{
         ArrayList<Hotel> hotels = new FileParser().getHotels();
-
+        System.out.println("-->"+hotel.getRooms());
         new FileManager("hotels.csv").overwrite("");
         for(Hotel h : hotels){
+
             if(hotelId.equals(h.getHotelId())){
                h.setName(hotel.getName());
                 h.setRatings(hotel.getRatings());
                 h.setHotelId(hotel.getHotelId());
                 h.setAccount(hotel.getAccount());
-               h.setRooms(hotel.getRooms());
+
+                System.out.println(h.getRooms());
+                ArrayList<String>temp =new ArrayList<>();
+                temp.addAll(h.getRooms());
+                temp.addAll(hotel.getRooms());
+                System.out.println(temp);
+                System.out.println(hotelId.equals(h.getHotelId()));
+               h.setRooms(temp);
 
             }
             new FileManager("hotels.csv").write(h.toString());

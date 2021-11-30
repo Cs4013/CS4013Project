@@ -38,10 +38,13 @@ public class FileManager {
 
                ArrayList<String> temp = new ArrayList<>();
                String line = fileReader.nextLine();
-               for(String s : line.split(",")){
-                   temp.add(s);
+               if(!line.equals("")){
+                   for(String s : line.split(",")){
+                       temp.add(s);
+                   }
+                   data.add(temp);
                }
-               data.add(temp);
+
            }
            fileReader.close();
        }else{
