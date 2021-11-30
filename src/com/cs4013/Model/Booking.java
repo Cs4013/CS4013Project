@@ -14,6 +14,8 @@ public class Booking {
     private String bookingType;
     private int totalCost;
     private boolean approved;
+    private boolean checkedIn;
+
 
     public Booking() {
         
@@ -35,7 +37,13 @@ public class Booking {
     public boolean isApproved() {
         return approved;
     }
+    public boolean isCheckedIn() {
+        return checkedIn;
+    }
 
+    public void setCheckedIn(boolean checkedIn) {
+        this.checkedIn = checkedIn;
+    }
     public void setApproved(boolean approved) {
         this.approved = approved;
     }
@@ -118,7 +126,7 @@ public class Booking {
 
     public String toString(){
 
-        return bookingId+","+userId+","+roomId+","+hotelId+","+checkInTime+","+checkOutDate+","+bookingType+","+totalCost+","+approved;
+        return bookingId+","+userId+","+roomId+","+hotelId+","+checkInTime+","+checkOutDate+","+bookingType+","+totalCost+","+approved+","+checkedIn;
     }
 
 

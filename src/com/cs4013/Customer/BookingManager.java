@@ -48,7 +48,7 @@ public class BookingManager {
 
     ArrayList<Hotel> hotels = new ArrayList<>();
     Map <Integer , String> dMap = new HashMap<>();
-    
+    boolean exit = false;
     ArrayList<Room>availableRooms = new ArrayList<>();
     User currentUser;
     public BookingManager (){
@@ -103,9 +103,14 @@ public class BookingManager {
         TerminalLogger.logln(StringUtils.centerString(currentUser.username+" | Book Room", 48, "|"));
         TerminalLogger.logln("+".repeat(50) + "\n");
         
-    while (success == false) {
+    while (success == false && exit == false) {
 
         input = TerminalLogger.textfield("Enter Check In date in format dd/mm/yyyy", 50);
+        if(input.equals("back")){
+           exit = true;
+           break;
+        }
+
         if (Formats.isValidDate(input)){
             
             String [] temp = input.split("/");
@@ -131,8 +136,11 @@ public class BookingManager {
 
     }
     success = false;
-    while (success == false) {
-
+    while (success == false && exit == false) {
+        if(input.equals("back")){
+           exit = true;
+break;
+        }
         input = TerminalLogger.textfield("Enter Check Out date in format dd/mm/yyyy", 50);
         if (Formats.isValidDate(input)){
             String [] temp = input.split("/");
@@ -222,7 +230,11 @@ public class BookingManager {
     //Ask For Selection
     success = false;
     int selectedRoomIndex = 0;
-    while(success == false){
+    while(success == false&&exit==false){
+        if(input.equals("back")){
+           exit = true;
+break;
+        }
         input = TerminalLogger.textfield("Enter 1-"+availableRooms.size(), 50);
         if(input.matches("[0-9]+")){
             int n = Integer.parseInt(input);
@@ -249,7 +261,11 @@ public class BookingManager {
     String reservationType = "S";
     double discount = 0;
    //Advance Purchase / Standard
-   while(success == false){
+   while(success == false && exit == false){
+       if(input.equals("back")){
+          exit = true;
+break;
+       }
         TerminalLogger.logln("Select Purchase Type"+TerminalColor.ANSI_YELLOW+"(Standard)"+TerminalColor.ANSI_RESET);
 
         TerminalLogger.log(1+") ",TerminalColor.ANSI_YELLOW);
@@ -277,67 +293,71 @@ public class BookingManager {
             TerminalLogger.logError("Please Enter 1-2 or help for more info");
         }
    }
-   
-   input = TerminalLogger.textfield("Would you like to continue with purchase? y/n", 50);
-   if(input.equals("y")){
-       //Transaction
-       //Show Purchase + Discount
-       TerminalLogger.logln("=".repeat(50));
-       TerminalLogger.logln("Your Purchase");
-       TerminalLogger.logln("=".repeat(50));
-       int total = printRoomDetails(availableRooms.get(selectedRoomIndex), rMap, checkinDate, checkoutDate);
-       TerminalLogger.logln("Discount: "+total*discount);
-       TerminalLogger.logln("-".repeat(50));
-       TerminalLogger.logln("TOTAL: "+( total - (total*discount)));
-       TerminalLogger.logln("-".repeat(50));
-       //Enter Password
-       int attempt = 2;
-       success = false;
-       while(attempt>0){
-           input = TerminalLogger.textfield("Confirm Password", 50);
-           if(input.matches(currentUser.password)){
-               success = true;//check if Transaction is valid
-               break;
-           }else{
-            attempt--;
-            TerminalLogger.logError("Invalid Password, Please Retry ("+attempt+" left)");
+
+   if(!exit) {
+       input = TerminalLogger.textfield("Would you like to continue with purchase? y/n", 50);
+
+       if (input.equals("y")) {
+           //Transaction
+           //Show Purchase + Discount
+           TerminalLogger.logln("=".repeat(50));
+           TerminalLogger.logln("Your Purchase");
+           TerminalLogger.logln("=".repeat(50));
+           int total = printRoomDetails(availableRooms.get(selectedRoomIndex), rMap, checkinDate, checkoutDate);
+           TerminalLogger.logln("Discount: " + total * discount);
+           TerminalLogger.logln("-".repeat(50));
+           TerminalLogger.logln("TOTAL: " + (total - (total * discount)));
+           TerminalLogger.logln("-".repeat(50));
+           //Enter Password
+           int attempt = 2;
+           success = false;
+           while (attempt > 0) {
+               input = TerminalLogger.textfield("Confirm Password", 50);
+               if (input.matches(currentUser.password)) {
+                   success = true;//check if Transaction is valid
+                   break;
+               } else {
+                   attempt--;
+                   TerminalLogger.logError("Invalid Password, Please Retry (" + attempt + " left)");
+               }
+           }
+           //Add to reservation_requests
+           if (success) {
+               Booking booking = new Booking();
+               booking.setRoomId(availableRooms.get(selectedRoomIndex).getRoomId());
+               booking.setCheckInTime(checkinDate.getTime());
+               booking.setCheckOutDate(checkoutDate.getTime());
+               booking.setApproved(false);
+               booking.setHotelId(availableRooms.get(selectedRoomIndex).getHotelId());
+               booking.setTotalCost((int) (total - (total * discount)));
+               booking.setUserId(currentUser.userId);
+               booking.setBookingType(reservationType);
+
+               FileManager fm = new FileManager("bookings.csv");
+               try {
+                   fm.write(booking.toString());
+                   currentUser.reservations.add(booking.getBookingId());
+                   currentUser.updateUser();
+                   HotelAccount hotelAccount = new HotelAccount();
+                   hotelAccount.setAmountPayed((int) (total - (total * discount)));
+                   hotelAccount.setDatePayed(today.getTime());
+                   hotelAccount.setHotelId(availableRooms.get(selectedRoomIndex).getHotelId());
+                   hotelAccount.setUserId(currentUser.userId);
+
+                   new HotelManager().edit(hotelAccount.getHotelId(), getHotel(hotelAccount.getHotelId()));
+
+                   TerminalLogger.logln("✓".repeat(50), TerminalColor.ANSI_GREEN);
+                   TerminalLogger.logln("Booked Room Successfully, Your Reservation will be confirmed soon.\nThank You", TerminalColor.ANSI_GREEN);
+                   TerminalLogger.logln("✓".repeat(50) + "\n", TerminalColor.ANSI_GREEN);
+
+               } catch (IOException e) {
+                   e.printStackTrace();
+               }
+
            }
        }
-        //Add to reservation_requests
-       if(success){
-           Booking booking = new Booking();
-           booking.setRoomId(availableRooms.get(selectedRoomIndex).getRoomId());
-           booking.setCheckInTime(checkinDate.getTime());
-           booking.setCheckOutDate(checkoutDate.getTime());
-           booking.setApproved(false);
-           booking.setHotelId(availableRooms.get(selectedRoomIndex).getHotelId());
-           booking.setTotalCost((int)(total - (total*discount)));
-           booking.setUserId(currentUser.userId);
-           booking.setBookingType(reservationType);
 
-           FileManager fm = new FileManager("bookings.csv");
-           try {
-            fm.write(booking.toString());
-            currentUser.reservations.add(booking.getBookingId());
-            currentUser.updateUser();
-            HotelAccount hotelAccount = new HotelAccount();
-            hotelAccount.setAmountPayed((int)(total - (total*discount)));
-            hotelAccount.setDatePayed(today.getTime());
-            hotelAccount.setHotelId(availableRooms.get(selectedRoomIndex).getHotelId());
-            hotelAccount.setUserId(currentUser.userId);
 
-            new HotelManager().edit(hotelAccount.getHotelId(), getHotel(hotelAccount.getHotelId()));
-
-            TerminalLogger.logln("✓".repeat(50),TerminalColor.ANSI_GREEN);
-            TerminalLogger.logln("Booked Room Successfully, Your Reservation will be confirmed soon.\nThank You", TerminalColor.ANSI_GREEN);
-            TerminalLogger.logln("✓".repeat(50) + "\n",TerminalColor.ANSI_GREEN);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-       }
-      
    }
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.cs4013.Misc.FileManager;
 import com.cs4013.Misc.FileParser;
+import jdk.swing.interop.SwingInterOpUtils;
 
 public class User {
     public String username;
@@ -29,13 +30,14 @@ public class User {
         }else{
             bookings = new FileParser().getReservation(true);
         }
+        System.out.println(bookings);
         ArrayList<Booking>myRes = new ArrayList<>();
         for(Booking b : bookings){
             if(this.reservations.contains(b.getBookingId())){
                 myRes.add(b);
             }
         }
-        return bookings;
+        return myRes;
     }
 
     public void cancelReservation(){
