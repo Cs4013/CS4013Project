@@ -46,7 +46,21 @@ public class BookingManager {
         } catch (ParseException e) {
 
         }
-       
+        Calendar c = Calendar.getInstance();
+        c.setTime(checkinDate);
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
+        LocalDate cidDate = LocalDate.parse(format2.format(checkinDate));
+        LocalDate codDate = LocalDate.parse(format2.format(checkoutDate));
+        Map <Integer , String> dMap = new HashMap<>();
+        dMap.put(0, "Sunday");
+        dMap.put(1, "Monday");
+        dMap.put(2, "Tuesday");
+        dMap.put(3, "Wednesday"); 
+        dMap.put(4, "Thursday"); 
+        dMap.put(5, "Friday");
+        dMap.put(6, "Saturday"); 
+
     while (success == false) {
 
         input = TerminalLogger.textfield("Enter Check In date in format dd/mm/yyyy", 50);
@@ -119,36 +133,63 @@ public class BookingManager {
         bookingMap.put(b.getBookingId(), res );
 
     }
-    System.out.println(bookingMap);
-    System.out.println(rooms);
+  
 
     for (Room r: rooms){
-        System.out.println(r);
-        for(String l: r.getBookings()){
-            System.out.println(l);
-            System.out.println("Ollie entered checkin: "+format.format(checkinDate.getTime()));
-            System.out.println("Ollie entered checkout: "+format.format(checkoutDate.getTime()));
-            System.out.println("booking checkin: "+format.format(bookingMap.get(l)[0]));
-            System.out.println("booking checkout: "+format.format(bookingMap.get(l)[1]));
-
-
-          if (checkAvailability(checkinDate.getTime(), 
-          checkoutDate.getTime(), 
-          bookingMap.get(l)[0],
-          bookingMap.get(l)[1]))  {
-              availableRooms.add(r);
+      
+        if(r.getBookings().size()>0){
+                for(String l: r.getBookings()){
               
-          }
-          else break;
+
+            if (checkAvailability(checkinDate.getTime(), 
+            checkoutDate.getTime(), 
+            bookingMap.get(l)[0],
+            bookingMap.get(l)[1]))  {
+
+                availableRooms.add(r);
                 
+            }
+            else break;
+                    
+            }
         }
- 
+        else{
+            availableRooms.add(r);
+        }
+      
+       
 
     }
+    Map<Integer, Integer> rMap = new HashMap<>();
 
-    System.out.println(availableRooms);
+    for(Room rm : availableRooms){
+        TerminalLogger.log(getHotelName(rm.getHotelId())+", ");
+        TerminalLogger.logln(rm.getType()+" Room");
+        rMap.put(0, rm.getRate().getSunday());
+        rMap.put(1, rm.getRate().getMonday());
+        rMap.put(2, rm.getRate().getTuesday());
+        rMap.put(3, rm.getRate().getWednesday());
+        rMap.put(4, rm.getRate().getThursday());
+        rMap.put(5, rm.getRate().getFriday());
+        rMap.put(6, rm.getRate().getSaturday());
+        
+        
+        System.out.println(format2.format(cidDate));
+        System.out.println(format2.format(codDate));
+
+        for(LocalDate d= cidDate; d.isBefore(codDate); d = d.plusDays(1)){
+            int curDay = d.getDayOfWeek().getValue();
+            System.out.println(curDay);
+        }
+       
+
+    }
     }
 
+    public String getHotelName(String hotelId){
+        String s = "";
+        return s;
+    }
     public boolean checkAvailability(long uCheckIn, long uCheckOut, long bCheckIn, long bCheckOut){
         if (uCheckOut < bCheckIn || uCheckIn > bCheckOut){
             return true;

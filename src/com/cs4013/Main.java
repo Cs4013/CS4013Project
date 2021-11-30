@@ -49,9 +49,9 @@ public class Main {
 
         boolean admin = false;
 
-       // new BookingManager().searchRoom();
+        new BookingManager().searchRoom();
 
-        
+
         if (args.length > 0) {
             if (args[0].equals("-a")) {
                 admin = true;
