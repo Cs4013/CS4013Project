@@ -67,7 +67,23 @@ public class CustomerPrompt implements IPrompt {
         new BookingManager(CurrentUser.user).searchRoom();
     }
     public void addFunds(){
-        
+
+        int currentWallet = CurrentUser.user.wallet;
+        TerminalLogger.logln("+".repeat(width));
+        TerminalLogger.logln(StringUtils.centerString(CurrentUser.user.username + " | "+" Add Funds",width-2));
+        TerminalLogger.logln("+".repeat(width));
+        String input = TerminalLogger.textfield("Enter Payment Amount", width);
+        int newAmount = Integer.parseInt(input);
+        int total = newAmount + currentWallet;
+        TerminalLogger.logln("✓".repeat(width),TerminalColor.ANSI_GREEN);
+        TerminalLogger.logln("Funds Successfully Added", TerminalColor.ANSI_GREEN);
+        TerminalLogger.logln("✓".repeat(width) + "\n",TerminalColor.ANSI_GREEN);
+
+        CurrentUser.user.wallet = total;
+        CurrentUser.user.updateUser();
+
+        goBack();
+
     }
     public void goBack(){
         if(prevPath.size() > 0){
