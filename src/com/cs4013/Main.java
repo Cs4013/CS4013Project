@@ -49,7 +49,7 @@ public class Main {
 
         boolean admin = false;
 
-        new BookingManager().searchRoom();
+       // new BookingManager().searchRoom();
 
         
         if (args.length > 0) {
