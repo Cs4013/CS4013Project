@@ -71,15 +71,6 @@ public class HotelManager {
 //          prints - want to cont.
 
 
-//
-//    public void editHotel() {
-//    }
-//
-//    public void deleteHotel() {
-//    }
-//
-//    public void viewHotel() {
-
     public void edit(String hotelId, Hotel hotel)throws IOException{
         ArrayList<Hotel> hotels = new FileParser().getHotels();
 
@@ -104,21 +95,131 @@ public class HotelManager {
 
     }
     public void editHotel() {
+        //ask user for hotelname
         TerminalLogger.logln("+".repeat(width));
         TerminalLogger.logln(StringUtils.centerString("Admin Control Centre | Edit Hotel", 48, "|"));
         TerminalLogger.logln("+".repeat(width) + "\n");
+        boolean success = false;
+        int currentIndex = 0;
+        String input = "";
+        ArrayList<Hotel> hotels = new FileParser().getHotels();
+        while (success == false) {
 
-    }
+            for(int i=0; i < hotels.size();i++){
+                TerminalLogger.logln((i+1)+") "+hotels.get(i).getName());
+            }
+            TerminalLogger.logln("Choose Hotel To Edit"+ TerminalColor.ANSI_YELLOW+"(Single)"+TerminalColor.ANSI_RESET);
+            input = TerminalLogger.textfield("Enter 1-" + hotels.size(), width);
+            if(input.matches("[0-9]")) {
+                int n = Integer.parseInt(input);
+                if (n > 0 && n <= hotels.size()) {
+                    success = true;
 
-    public void deleteHotel() {
-        TerminalLogger.logln("+".repeat(width));
-        TerminalLogger.logln(StringUtils.centerString("Admin Control Centre | Delete Hotel", 48, "|"));
-        TerminalLogger.logln("+".repeat(width) + "\n");
+                }
+                else{
+                    TerminalLogger.logError("Please Enter a number between 1-"+hotels.size());
+                }
+            }
+            else{
+                TerminalLogger.logError("Invalid Format!");
+            }
+        }
+        success = false;
+        while (!success) {
+            input = TerminalLogger.textfield("Enter Hotel Name"+ TerminalColor.ANSI_YELLOW+"("+hotels.get(currentIndex).getName()+")"+TerminalColor.ANSI_RESET, width);
+
+            if(input.equals("")){
+                success=true;
+            }else if (input.matches("[0-9A-Za-z\\s]+")) {
+
+                hotels.get(currentIndex).setName(input);
+                success = true;
+            } else {
+                TerminalLogger.logError("Please enter Alpha-numeric or numeric characters!");
+            }
+        }
+        success = false;
+        while (!success) {
+            input = TerminalLogger.textfield("Enter Rating", width);
+            if(input.equals("")){
+                success=true;
+            }else if (input.matches("[0-9A-Za-z\\s]+")) {
+
+                hotels.get(currentIndex).setRatings(input);
+                success = true;
+            } else {
+                TerminalLogger.logError("Please enter Alpha-numeric or numeric characters!");
+            }
+        }
+
+        try {
+            edit(hotels.get(currentIndex).getHotelId(),hotels.get(currentIndex));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void viewHotel() {
         TerminalLogger.logln("+".repeat(width));
         TerminalLogger.logln(StringUtils.centerString("Admin Control Centre | View Hotel", 48, "|"));
         TerminalLogger.logln("+".repeat(width) + "\n");
+        boolean success = false;
+        int currentIndex = 0;
+        String input = "";
+        ArrayList<Hotel> hotels = new FileParser().getHotels();
+        while (success == false) {
+
+            for(int i=0; i < hotels.size();i++){
+                TerminalLogger.logln((i+1)+") "+hotels.get(i).getName());
+            }
+            TerminalLogger.logln("Choose Hotel To Edit"+ TerminalColor.ANSI_YELLOW+"(Single)"+TerminalColor.ANSI_RESET);
+            input = TerminalLogger.textfield("Enter 1-" + hotels.size(), width);
+            if(input.matches("[0-9]")) {
+                int n = Integer.parseInt(input);
+                if (n > 0 && n <= hotels.size()) {
+                    success = true;
+
+                }
+                else{
+                    TerminalLogger.logError("Please Enter a number between 1-"+hotels.size());
+                }
+            }
+            else{
+                TerminalLogger.logError("Invalid Format!");
+            }
+        }
+        success = false;
+        while (!success) {
+            input = TerminalLogger.textfield("Enter Hotel Name"+ TerminalColor.ANSI_YELLOW+"("+hotels.get(currentIndex).getName()+")"+TerminalColor.ANSI_RESET, width);
+
+            if(input.equals("")){
+                success=true;
+            }else if (input.matches("[0-9A-Za-z\\s]+")) {
+
+                hotels.get(currentIndex).setName(input);
+                success = true;
+            } else {
+                TerminalLogger.logError("Please enter Alpha-numeric or numeric characters!");
+            }
+        }
+        success = false;
+        while (!success) {
+            input = TerminalLogger.textfield("Enter Rating", width);
+            if(input.equals("")){
+                success=true;
+            }else if (input.matches("[0-9A-Za-z\\s]+")) {
+
+                hotels.get(currentIndex).setRatings(input);
+                success = true;
+            } else {
+                TerminalLogger.logError("Please enter Alpha-numeric or numeric characters!");
+            }
+        }
+
+        try {
+            edit(hotels.get(currentIndex).getHotelId(),hotels.get(currentIndex));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

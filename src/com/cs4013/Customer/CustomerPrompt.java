@@ -46,7 +46,7 @@ public class CustomerPrompt implements IPrompt {
         definition.put("CR","Enter CR to Cancel Reservation");
         definition.put("CT","Enter CT to Change Reservation ");
 
-        
+
 
         ArrayList<String> init = new ArrayList<>();
         init.add("CI");
@@ -76,6 +76,38 @@ public class CustomerPrompt implements IPrompt {
 
 
     public void checkIn(){
+        ArrayList<Booking> bookings = CurrentUser.user.getReservations("y");
+        System.out.println(bookings);
+        if(bookings.size()>0){
+            boolean b = false;
+            while(!b){
+                viewRoom();
+                String s = TerminalLogger.textfield("Enter 1-"+bookings.size(),width);
+                if(s.matches("[0-9]+")) {
+                    int n = Integer.parseInt(s);
+                    if (n > 0 && n <= bookings.size()) {
+                        bookings.get(n).setCheckedIn(true);
+                        new ReservationManager().update(bookings.get(n));
+                        b = true;
+                    } else {
+                        TerminalLogger.logError("Please \"Enter 1-\"+bookings.size(),width ");
+                    }
+                }
+                else{
+                        TerminalLogger.logError("Please \"Enter 1-\"+bookings.size(),width ");
+
+                }
+            }
+            TerminalLogger.logln("✓".repeat(width),TerminalColor.ANSI_GREEN);
+            TerminalLogger.logln("Successfully Checked In!", TerminalColor.ANSI_GREEN);
+            TerminalLogger.logln("✓".repeat(width) + "\n",TerminalColor.ANSI_GREEN);
+
+
+        }
+        else{
+            TerminalLogger.logError("No Reservations To Check Into!");
+            goBack();
+        }
 
     }
     public Hotel getHotel(String hotelId){
@@ -90,7 +122,7 @@ public class CustomerPrompt implements IPrompt {
     public Room getRoom(String roomId){
         ArrayList<Room> rooms = new FileParser().getRooms();
         for(Room r : rooms){
-            if(r.getHotelId().equals(roomId)){
+            if(r.getRoomId().equals(roomId)){
                 return r;
             }
         }
@@ -109,19 +141,35 @@ public class CustomerPrompt implements IPrompt {
         {
             TerminalLogger.logln("No Reservations Found",TerminalColor.ANSI_YELLOW);
         }else{
+            int i = 1;
             for(Booking b: bookings){
                 Hotel h = getHotel(b.getHotelId());
                 Room r = getRoom(b.getRoomId());
                 long cin  = b.getCheckInTime();
                 long cout = b.getCheckOutDate();
+                TerminalLogger.log(i+") ", TerminalColor.ANSI_PURPLE);
                 TerminalLogger.log(h.getName()+" ", TerminalColor.ANSI_PURPLE);
                 TerminalLogger.log(r.getType()+" ", TerminalColor.ANSI_YELLOW);
                 TerminalLogger.log(format.format(cin)+"-"+format.format(cout), TerminalColor.ANSI_BLUE);
                 TerminalLogger.logln("");
-
+                i++;
             }
         }
 
+
+        int i = 1;
+        for(Booking b: bookings){
+            Hotel h = getHotel(b.getHotelId());
+            Room r = getRoom(b.getRoomId());
+            long cin  = b.getCheckInTime();
+            long cout = b.getCheckOutDate();
+            TerminalLogger.log(i+") ", TerminalColor.ANSI_PURPLE);
+            TerminalLogger.log(h.getName()+" ", TerminalColor.ANSI_PURPLE);
+            TerminalLogger.log(r.getType()+" ", TerminalColor.ANSI_YELLOW);
+            TerminalLogger.log(format.format(cin)+"-"+format.format(cout), TerminalColor.ANSI_BLUE);
+            TerminalLogger.logln("");
+            i++;
+        }
         TerminalLogger.logln("=".repeat(width));
 
         goBack();

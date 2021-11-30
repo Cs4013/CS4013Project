@@ -144,7 +144,9 @@ public class FileParser {
                   if(booking.isApproved()){
                       bookings.add(booking);
                   }
+
               }
+
 
             }
         }catch(IOException e){

@@ -9,6 +9,16 @@ import com.cs4013.Model.Hotel;
 import java.io.IOException;
 import java.util.*;
 
+/**AdminPrompt
+ * This class is used to access the Admin Prompts for the application
+ * There are multiple selections available
+ * @method populateNavStack add commands ask eys
+ * @mothod printDefinition
+ * @method addRoom
+ * @method addHotel
+ *
+ *
+ */
 public class AdminPrompt implements IPrompt {
 
     public boolean keepGoing = true;
@@ -50,9 +60,9 @@ public class AdminPrompt implements IPrompt {
 
          init = new ArrayList<>();
          init.add("AR");
-         init.add("ER");
-         init.add("DR");
-         init.add("VR");
+//         init.add("ER");
+//         init.add("DR");
+//         init.add("VR");
          navStack.put("MR",init);
          
 
@@ -60,9 +70,9 @@ public class AdminPrompt implements IPrompt {
 
         
         init.add("ADH");
-        init.add("EH");
-        init.add("DH");
-        init.add("VH");
+//        init.add("EH");
+//        init.add("DH");
+//        init.add("VH");
          navStack.put("MH",init);
 
          init = new ArrayList<>();
@@ -89,15 +99,7 @@ public class AdminPrompt implements IPrompt {
     public boolean addHotel()throws IOException{
         return hotelManager.addHotel();
     }
-    public void editRoom(){
 
-    }
-    public void deleteRoom(){
-
-    }
-    public void viewRoom(){
-
-    }  
     public void goBack(){
         if(prevPath.size() > 0){
             currentPath = prevPath.remove(prevPath.size()-1);
@@ -130,10 +132,6 @@ public class AdminPrompt implements IPrompt {
 
                 }
                 break;
-            case "EH":
-            editRoom();
-            case "VH":
-            viewRoom();
             default:
             printDefiniton(command);
             String input = TerminalLogger.textfield("Enter Here", width);
