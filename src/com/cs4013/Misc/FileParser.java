@@ -12,6 +12,26 @@ public class FileParser {
     public FileParser(){
 
     }
+    public ArrayList<User> getUsers(){
+        io = new FileManager("customers.csv");
+        ArrayList<User> users = new ArrayList<>();
+        try{
+            ArrayList<ArrayList<String>> us = io.readCsv();
+            for(ArrayList<String> s : us){
+              User user = new User(s.get(0));
+              user.password = s.get(2);
+              user.username=s.get(1);
+              user.wallet=Integer.parseInt(s.get(3));
+              if(us.size() > 4){
+                  user.reservations= new ArrayList<>(Arrays.asList(s.get(4).split("_")));
+              }
+              
+            }
+        }catch(IOException e){
+
+        }
+        return users;
+    }
     public ArrayList<Room> getRooms(){
         io = new FileManager("rooms.csv");
         ArrayList<Room> rooms = new ArrayList<>();

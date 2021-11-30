@@ -14,7 +14,7 @@ public class TerminalLogger {
     }
 
     public static void log(Object msg,String color){
-        System.out.println(color+msg+TerminalColor.ANSI_RESET);
+        System.out.print(color+msg+TerminalColor.ANSI_RESET);
     }
 
     public static void logError(Object msg){
