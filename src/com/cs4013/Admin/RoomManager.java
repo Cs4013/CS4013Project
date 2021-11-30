@@ -169,6 +169,7 @@ public class RoomManager {
         room.setRate(rates);
         room.setMaxOccupancy(maxO);
         room.setMinOccupancy(minO);
+        selectedHotel.getRooms().clear();
         selectedHotel.getRooms().add(room.getRoomId());
         new HotelManager().edit(selectedHotel.getHotelId(),selectedHotel);
         fileManager.write(room.toString());

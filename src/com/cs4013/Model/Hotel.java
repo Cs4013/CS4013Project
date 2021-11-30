@@ -82,13 +82,18 @@ public class Hotel {
 
     public String toString(){
         String bks="";
+        System.out.println();
         for (String b : rooms){
+
+            if(!b.equals(""))
             bks+=b+"_";
         }
+
         String B = "";
         if(!bks.equals("")){
             B = bks.substring(0,bks.length()-1);
         }
+
 
         String acts="";
         for (HotelAccount b : account){

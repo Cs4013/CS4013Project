@@ -68,10 +68,21 @@ public class FileParser {
                 Hotel hotel = new Hotel();
                 hotel.setHotelId(r.get(0));
                 hotel.setRatings(r.get(1));
+                //System.out.println("######");
+                ArrayList<String> rm = new ArrayList<>(Arrays.asList(r.get(2).split("_")));
+                if(rm.size()<1){
+                    if(!r.get(2).equals(""))
+                    rm.add(r.get(2));
+                }
+
+                hotel.setRooms(rm);
+                //System.out.println(hotel.getRooms());
                 hotel.setName(r.get(3));
                 ArrayList<HotelAccount> accounts = new ArrayList<>();
                 if(r.size() > 4){
                     String[] ac = r.get(4) .split("_");
+
+
                     for(String s : ac){
                         String[] acc = r.get(4) .split(">");
                         HotelAccount hotelAccount = new HotelAccount();
