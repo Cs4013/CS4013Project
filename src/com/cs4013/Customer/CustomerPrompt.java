@@ -7,11 +7,17 @@ import java.util.Scanner;
 
 import com.cs4013.Admin.RoomManager;
 import com.cs4013.Interface.IPrompt;
+<<<<<<< HEAD
 import com.cs4013.Misc.CurrentUser;
 import com.cs4013.Misc.StringUtils;
 import com.cs4013.Misc.TerminalColor;
 import com.cs4013.Misc.TerminalLogger;
 import com.cs4013.Model.Booking;
+=======
+import com.cs4013.Misc.*;
+import com.cs4013.Model.Hotel;
+import com.cs4013.Model.Room;
+>>>>>>> 41a729e4ea22a364a5144b998120b5f393080729
 
 public class CustomerPrompt implements IPrompt {
 
@@ -58,6 +64,24 @@ public class CustomerPrompt implements IPrompt {
 
     public void checkIn(){
 
+    }
+    public Hotel getHotel(String hotelId){
+        ArrayList<Hotel> hotels = new FileParser().getHotels();
+        for(Hotel h : hotels){
+            if(h.getHotelId().equals(hotelId)){
+                return h;
+            }
+        }
+        return null;
+    }
+    public Room getRoom(String roomId){
+        ArrayList<Room> rooms = new FileParser().getRooms();
+        for(Room r : rooms){
+            if(r.getHotelId().equals(roomId)){
+                return r;
+            }
+        }
+        return null;
     }
 
     public void viewRoom(){
