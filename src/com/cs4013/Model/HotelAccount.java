@@ -7,7 +7,7 @@ public class HotelAccount {
     private String hotelId;
 
     private void HotelAccount(){
-        
+
     }
 
     public String getUserId() {
@@ -41,7 +41,15 @@ public class HotelAccount {
     public void setHotelId(String hotelId) {
         this.hotelId = hotelId;
     }
-
+    @Override
+    public String toString() {
+        
+        return hotelId+","+userId+","+amountPayed+","+amount+",";
+    }
+    public String toString(String sep) {
+        
+        return hotelId+sep+userId+sep+amountPayed+sep+amount+sep;
+    }
     
     
 }
