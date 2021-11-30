@@ -1,6 +1,7 @@
 package com.cs4013.Model;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Hotel {
     private String hotelId;
@@ -9,14 +10,23 @@ public class Hotel {
     private String name;
 
     public Hotel() {
-        this.hotelId = "";
+        this.hotelId = UUID.randomUUID().toString();
         this.ratings = "3-Star";
         this.rooms = new ArrayList<>();
         this.name = "Unknown";
     }
 
-    public Hotel(String hotelId, String ratings, ArrayList<Room> rooms, String name) {
-        this.hotelId = hotelId;
+
+    public Hotel(String ratings,String name) {
+        this.hotelId = UUID.randomUUID().toString();;
+        this.ratings = ratings;
+        this.rooms = new ArrayList<>();
+        this.name = name;
+
+    }
+
+    public Hotel(String ratings, ArrayList<Room> rooms, String name) {
+        this.hotelId = UUID.randomUUID().toString();;
         this.ratings = ratings;
         this.rooms = rooms;
         this.name = name;
