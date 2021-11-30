@@ -146,7 +146,7 @@ public class BookingManager {
     //we display all the rooms//
 
     FileParser parser = new FileParser();
-    ArrayList<Booking>bookings = parser.getReservation();
+    ArrayList<Booking>bookings = parser.getReservation(true);
     ArrayList<Room>rooms = parser.getRooms();
     availableRooms = new ArrayList<>();
 

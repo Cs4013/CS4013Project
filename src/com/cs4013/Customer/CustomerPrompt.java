@@ -1,5 +1,6 @@
 package com.cs4013.Customer;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,17 +8,14 @@ import java.util.Scanner;
 
 import com.cs4013.Admin.RoomManager;
 import com.cs4013.Interface.IPrompt;
-<<<<<<< HEAD
 import com.cs4013.Misc.CurrentUser;
 import com.cs4013.Misc.StringUtils;
 import com.cs4013.Misc.TerminalColor;
 import com.cs4013.Misc.TerminalLogger;
 import com.cs4013.Model.Booking;
-=======
 import com.cs4013.Misc.*;
 import com.cs4013.Model.Hotel;
 import com.cs4013.Model.Room;
->>>>>>> 41a729e4ea22a364a5144b998120b5f393080729
 
 public class CustomerPrompt implements IPrompt {
 
@@ -85,14 +83,31 @@ public class CustomerPrompt implements IPrompt {
     }
 
     public void viewRoom(){
+        TerminalLogger.logln("+".repeat(width));
+        TerminalLogger.logln(StringUtils.centerString(CurrentUser.user.username + " | "+" View reservations",width-2));
+        TerminalLogger.logln("+".repeat(width));
         ArrayList <String> bookingId = CurrentUser.user.reservations;
-        String input = TerminalLogger.textfield("Do you want to see all approved reservations", 50);
+        String input = TerminalLogger.textfield("Do you want to see all approved reservations? y/n", 50);
         ArrayList<Booking> bookings = CurrentUser.user.getReservations(input);
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        if(bookings.size() < 1)
+        {
+            TerminalLogger.logln("No Reservations Found",TerminalColor.ANSI_YELLOW);
+        }
         for(Booking b: bookings){
-            
+            Hotel h = getHotel(b.getHotelId());
+            Room r = getRoom(b.getRoomId());
+            long cin  = b.getCheckInTime();
+            long cout = b.getCheckOutDate();
+            TerminalLogger.log(h.getName()+" ", TerminalColor.ANSI_PURPLE);
+            TerminalLogger.log(r.getType()+" ", TerminalColor.ANSI_YELLOW);
+            TerminalLogger.log(format.format(cin)+"-"+format.format(cout), TerminalColor.ANSI_BLUE);
+            TerminalLogger.logln("");
+
         } 
+        TerminalLogger.logln("=".repeat(width));
 
-
+        goBack();
 
     }
     public void modifyReseversation(){
