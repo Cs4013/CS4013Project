@@ -8,7 +8,7 @@ public class Rates{
     private int friday;
     private int saturday;
     private int sunday;
-    public Rates(int monday, int tuesday, int wednesday, int thursday, int friday, int saturday, int sunday){
+    public Rates(int sunday, int monday, int tuesday, int wednesday, int thursday, int friday, int saturday,){
         this.monday = monday;
         this.tuesday = tuesday;
         this.wednesday = wednesday;
