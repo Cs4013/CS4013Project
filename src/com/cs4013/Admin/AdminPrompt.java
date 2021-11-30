@@ -73,7 +73,7 @@ public class AdminPrompt implements IPrompt {
             
     }
     public boolean addRoom()throws IOException{
-        return roomManager.addRoom();
+        return  roomManager.addRoom();
     }
     public void editRoom(){
 
