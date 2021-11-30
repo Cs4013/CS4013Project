@@ -82,7 +82,7 @@ public class HotelManager {
 
     public void edit(String hotelId, Hotel hotel)throws IOException{
         ArrayList<Hotel> hotels = new FileParser().getHotels();
-        System.out.println("-->"+hotel.getRooms());
+
         new FileManager("hotels.csv").overwrite("");
         for(Hotel h : hotels){
 
@@ -92,13 +92,10 @@ public class HotelManager {
                 h.setHotelId(hotel.getHotelId());
                 h.setAccount(hotel.getAccount());
 
-                System.out.println(h.getRooms());
                 ArrayList<String>temp =new ArrayList<>();
                 temp.addAll(h.getRooms());
                 temp.addAll(hotel.getRooms());
-                System.out.println(temp);
-                System.out.println(hotelId.equals(h.getHotelId()));
-               h.setRooms(temp);
+                 h.setRooms(temp);
 
             }
             new FileManager("hotels.csv").write(h.toString());
