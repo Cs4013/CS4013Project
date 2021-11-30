@@ -13,11 +13,18 @@ public class Booking {
     private String hotelId;
     private String bookingType;
     private int totalCost;
+    private boolean approved;
+    private boolean checkedIn;
+
 
     public Booking() {
+        
+        this.bookingId = UUID.randomUUID().toString();
     }
 
     public Booking(String roomId, long checkInTime, long checkOutDate) {
+       
+        this.bookingId = UUID.randomUUID().toString();
         this.checkInTime = checkInTime;
         this.checkOutDate = checkOutDate;
         this.roomId = roomId;
@@ -25,6 +32,20 @@ public class Booking {
         this.hotelId = "";
         this.bookingType = "S";
         this.totalCost = 0;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+    public boolean isCheckedIn() {
+        return checkedIn;
+    }
+
+    public void setCheckedIn(boolean checkedIn) {
+        this.checkedIn = checkedIn;
+    }
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 
     public Booking(String roomId, long checkInTime, long checkOutDate, String userId,
@@ -105,7 +126,7 @@ public class Booking {
 
     public String toString(){
 
-        return bookingId+","+userId+","+roomId+","+hotelId+","+checkInTime+","+checkOutDate+","+bookingType+","+totalCost;
+        return bookingId+","+userId+","+roomId+","+hotelId+","+checkInTime+","+checkOutDate+","+bookingType+","+totalCost+","+approved+","+checkedIn;
     }
 
 

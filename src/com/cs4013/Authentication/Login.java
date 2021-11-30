@@ -3,12 +3,15 @@ package com.cs4013.Authentication;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import com.cs4013.Admin.AdminPrompt;
+import com.cs4013.Misc.CurrentUser;
 import com.cs4013.Misc.FileManager;
 import com.cs4013.Misc.TerminalColor;
 import com.cs4013.Misc.TerminalLogger;
+import com.cs4013.Model.User;
 
 /**
  * Login
@@ -53,16 +56,23 @@ public class Login {
         boolean success = false;
         FileManager bfile = new FileManager("customers.csv");
             ArrayList<ArrayList<String>> data = bfile.readCsv();
-            Map<String,String> users = new HashMap<>();
+            Map<String,User> users = new HashMap<>();
         while(success==false){
             String userName = TerminalLogger.textfield("Enter your user name", 50);
             String password = TerminalLogger.textfield("Enter your password", 50);
             for(ArrayList<String> user: data){
-                users.put(user.get(1), user.get(2));
+                User u = new User(user.get(0));
+                u.password = user.get(2);
+                u.wallet = 0;
+                u.username = user.get(1);
+                if(user.size()>4)
+                 u.reservations= new ArrayList<>(Arrays.asList(user.get(4).split("_")));
+                users.put(u.username,u);
             }
             if(users.containsKey(userName)){
-                if(users.get(userName).equals(password)){
+                if(users.get(userName).password.equals(password)){
                     TerminalLogger.logln("Welcome back "+ userName);
+                    CurrentUser.user = users.get(userName);
                     success=true;
                 }else{
                     TerminalLogger.logError("incorrect password");
@@ -71,7 +81,8 @@ public class Login {
                 TerminalLogger.logError("User "+userName+ " does not exist");
                 String create = TerminalLogger.textfield("Do you want to create an account text?y/n", 50);
                 if(create.equals("y")){
-                      success= new Register().addNewUser();
+                      CurrentUser.user = new Register().addNewUser();
+                      success = true;
                  
                 }else if(create.equals("n")){
 

@@ -22,6 +22,26 @@ public class FileParser {
     public FileParser(){
 
     }
+    public ArrayList<User> getUsers(){
+        io = new FileManager("customers.csv");
+        ArrayList<User> users = new ArrayList<>();
+        try{
+            ArrayList<ArrayList<String>> us = io.readCsv();
+            for(ArrayList<String> s : us){
+              User user = new User(s.get(0));
+              user.password = s.get(2);
+              user.username=s.get(1);
+              user.wallet=Integer.parseInt(s.get(3));
+              if(us.size() > 4){
+                  user.reservations= new ArrayList<>(Arrays.asList(s.get(4).split("_")));
+              }
+              users.add(user);
+            }
+        }catch(IOException e){
+
+        }
+        return users;
+    }
     public ArrayList<Room> getRooms(){
         io = new FileManager("rooms.csv");
         ArrayList<Room> rooms = new ArrayList<>();
@@ -48,6 +68,7 @@ public class FileParser {
                 room.setRoomId(r.get(0));
                 room.setType(roomType);
                 room.setHotelId(hotelId);
+
                 room.setMinOccupancy(Integer.parseInt(r.get(4)));
                 room.setMaxOccupancy(Integer.parseInt(r.get(5)));
                 String[] rates = r.get(3) .split("_");
@@ -112,7 +133,7 @@ public class FileParser {
         }
         return hotels;
     }
-    public ArrayList<Booking> getReservation(){
+    public ArrayList<Booking> getReservation(boolean all){
         ArrayList<Booking> bookings = new ArrayList<>();
 
         io = new FileManager("bookings.csv");
@@ -123,7 +144,19 @@ public class FileParser {
               booking.setBookingId(r.get(0));
               booking.setUserId(r.get(1));
               booking.setHotelId(r.get(3));
-              bookings.add(booking);
+              booking.setBookingType(r.get(6));
+              booking.setTotalCost(Integer.parseInt(r.get(7)));
+              booking.setApproved(Boolean.getBoolean(r.get(8)));
+              booking.setCheckedIn(Boolean.getBoolean(r.get(9)));
+              if(all){
+                  bookings.add(booking);
+              }else{
+                  if(booking.isApproved()){
+                      bookings.add(booking);
+                  }
+
+              }
+
 
             }
         }catch(IOException e){

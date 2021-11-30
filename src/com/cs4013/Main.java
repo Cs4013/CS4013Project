@@ -10,6 +10,7 @@ import com.cs4013.Authentication.Login;
 import com.cs4013.Customer.BookingManager;
 import com.cs4013.Customer.CustomerPrompt;
 import com.cs4013.Interface.IPrompt;
+import com.cs4013.Misc.CurrentUser;
 import com.cs4013.Misc.FileParser;
 
 /**
@@ -49,9 +50,10 @@ public class Main {
 
         boolean admin = false;
 
-       // new BookingManager().searchRoom();
-
         
+      //  new BookingManager(CurrentUser.user).searchRoom();
+
+
         if (args.length > 0) {
             if (args[0].equals("-a")) {
                 admin = true;
