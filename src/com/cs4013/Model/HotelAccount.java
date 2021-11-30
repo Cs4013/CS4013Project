@@ -7,6 +7,10 @@ public class HotelAccount {
     private String hotelId;
 
     private void HotelAccount(){
+        this.userId = "";
+        this.amountPayed = 0;
+        this.datePayed = System.currentTimeMillis();
+        this.hotelId = "";
 
     }
 
