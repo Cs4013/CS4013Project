@@ -16,6 +16,7 @@ public class Booking {
     private boolean approved;
     private boolean checkedIn;
 
+
     public Booking() {
         
         this.bookingId = UUID.randomUUID().toString();
