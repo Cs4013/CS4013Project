@@ -22,8 +22,20 @@ public class User {
         this.reservations=new ArrayList<>();
     }
 
-    public void makeResersavtion(){
-
+    public ArrayList<Booking> getReservations(String approved){
+        ArrayList<Booking> bookings = new ArrayList<>();
+        if(approved.equals("y")){
+            bookings = new FileParser().getReservation(false);
+        }else{
+            bookings = new FileParser().getReservation(true);
+        }
+        ArrayList<Booking>myRes = new ArrayList<>();
+        for(Booking b : bookings){
+            if(this.reservations.contains(b.getBookingId())){
+                myRes.add(b);
+            }
+        }
+        return bookings;
     }
 
     public void cancelReservation(){
@@ -47,7 +59,7 @@ public class User {
           FileManager fm =  new FileManager("customers.csv");
           fm.overwrite("");
             for(User u : users){
-                if(u.userId == this.userId){
+                if(u.userId.equals(this.userId)){
                     u.wallet = this.wallet;
                     u.reservations = this.reservations;
                     u.username = this.username;
