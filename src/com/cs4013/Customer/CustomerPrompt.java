@@ -20,6 +20,7 @@ import com.cs4013.Model.Hotel;
 import com.cs4013.Model.HotelAccount;
 import com.cs4013.Model.Room;
 
+
 public class CustomerPrompt implements IPrompt {
 
     public boolean keepGoing = true;

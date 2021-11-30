@@ -25,6 +25,24 @@ import com.cs4013.Model.Hotel;
 import com.cs4013.Model.HotelAccount;
 import com.cs4013.Model.Room;
 import com.cs4013.Model.User;
+/**
+ * This class is where booking you make your booking
+ * @public class BookingManager is where the hotels are stored in an array list using a FileParser
+ * @public void SearchRoom
+ * get check in date and check out date from user
+        make sure that both check in date and check out dates are valid in the format dd||mm||yyyy 
+    
+ * we firstly search for all the rooms in the hotels
+
+    we then search for the rooms between the check in and check out date
+    we specify if the rooms are booked or not
+    we display all the rooms
+ * The program will ask for your selection of rooms and if you want to add/confirm your selection
+ * Once confirmed, your amounto pay will be displayed, with an option of an discount on a specific room type
+ * 
+ * 
+ * 
+ */
 
 public class BookingManager {
 
@@ -52,8 +70,7 @@ public class BookingManager {
        boolean success = false;
         
 
-        //get check in date and check out date from user//
-        //make sure that both check in date and check out dates are valid in the format dd||mm||yyyy //
+        
         String input = "";
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         Date checkinDate=null,checkoutDate=null,today=null;
@@ -147,11 +164,7 @@ break;
         }
 
     }
-    //we firstly search for all the rooms in the hotels//
-
-    //we then search for the rooms between the check in and check out date//
-    //we specify if the rooms are booked or not//
-    //we display all the rooms//
+    
 
     FileParser parser = new FileParser();
     ArrayList<Booking>bookings = parser.getReservation(true);
