@@ -25,7 +25,7 @@ public class FileParser {
               if(us.size() > 4){
                   user.reservations= new ArrayList<>(Arrays.asList(s.get(4).split("_")));
               }
-              
+              users.add(user);
             }
         }catch(IOException e){
 

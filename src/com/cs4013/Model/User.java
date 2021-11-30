@@ -41,7 +41,7 @@ public class User {
     public void updateUser(){
         ArrayList<User> users = new FileParser().getUsers();
 
-        System.out.println(users);
+        System.out.println("->"+users);
         ArrayList<String> us = new ArrayList<>();
         try {
           FileManager fm =  new FileManager("customers.csv");
