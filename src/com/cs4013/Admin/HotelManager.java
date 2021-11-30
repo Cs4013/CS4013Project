@@ -44,7 +44,7 @@ public class HotelManager {
         success = false;
         while (success == false) {
             input = TerminalLogger.textfield("Enter Rating", width);
-            if (input.matches("[0-9A-Za-z\\s]+")) {
+            if (input.matches("[0-9A-Za-z\\s\\-]+")) {
                 rating = input;
                 success = true;
             } else {

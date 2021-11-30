@@ -135,6 +135,7 @@ public class RoomManager {
             int i = 1;
             for(Hotel s : hotels){
                 TerminalLogger.logln(i+") "+s.getName());
+                i++;
             }
             TerminalLogger.logln("*".repeat(width));
             input = TerminalLogger.textfield("Enter 1-"+hotels.size(),width);
