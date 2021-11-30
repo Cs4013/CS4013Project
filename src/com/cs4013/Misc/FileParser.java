@@ -6,6 +6,16 @@ import java.io.IOException;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+/**
+ * @class FileParser is responsible for converting the two dimensional array list of string into an array list of various types 
+ * e.g 
+ * @class Booking
+ * @class Room
+ * @class Hotel , 
+ * @class User
+ * <br/>
+ * @method getRooms() - gets the rooms and stores them into an array list  
+ */
 
 public class FileParser {
     FileManager io = new FileManager("");

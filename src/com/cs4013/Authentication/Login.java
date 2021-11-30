@@ -12,6 +12,9 @@ import com.cs4013.Misc.TerminalLogger;
 
 /**
  * Login
+ * This class is used for Logging in as an admin and customer
+ * @Method loginAsAdmin is used to login as an admin
+ * @Method logInAsCustomer is used to login as a customer
  */
 public class Login {
 

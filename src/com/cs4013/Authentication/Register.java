@@ -6,6 +6,12 @@ import java.util.UUID;
 
 import com.cs4013.Misc.TerminalLogger;
 import com.cs4013.Misc.*;
+/**
+ * Register
+ * This class is used to register new customers to the application
+ * @Method addNewUser is used in order to add the new username and password needed 
+ * Then storing the information into a csv file
+ */
 public class Register {
     public Register(){}
         
