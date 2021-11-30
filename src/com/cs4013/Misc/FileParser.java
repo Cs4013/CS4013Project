@@ -122,7 +122,7 @@ public class FileParser {
         }
         return hotels;
     }
-    public ArrayList<Booking> getReservation(){
+    public ArrayList<Booking> getReservation(boolean all){
         ArrayList<Booking> bookings = new ArrayList<>();
 
         io = new FileManager("bookings.csv");
@@ -133,7 +133,16 @@ public class FileParser {
               booking.setBookingId(r.get(0));
               booking.setUserId(r.get(1));
               booking.setHotelId(r.get(3));
-              bookings.add(booking);
+              booking.setBookingType(r.get(6));
+              booking.setTotalCost(Integer.parseInt(r.get(7)));
+              booking.setApproved(Boolean.getBoolean(r.get(8)));
+              if(all){
+                  bookings.add(booking);
+              }else{
+                  if(booking.isApproved()){
+                      bookings.add(booking);
+                  }
+              }
 
             }
         }catch(IOException e){
