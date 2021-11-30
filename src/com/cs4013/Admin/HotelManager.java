@@ -85,6 +85,8 @@ public class HotelManager {
 
         new FileManager("hotels.csv").overwrite("");
         for(Hotel h : hotels){
+            System.out.println(hotel.getRooms());
+            System.out.println(hotelId.equals(h.getHotelId()));
             if(hotelId.equals(h.getHotelId())){
                h.setName(hotel.getName());
                 h.setRatings(hotel.getRatings());

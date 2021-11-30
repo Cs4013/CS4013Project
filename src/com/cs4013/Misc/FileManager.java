@@ -38,7 +38,7 @@ public class FileManager {
 
                ArrayList<String> temp = new ArrayList<>();
                String line = fileReader.nextLine();
-               if(line.equals("")){
+               if(!line.equals("")){
                    for(String s : line.split(",")){
                        temp.add(s);
                    }

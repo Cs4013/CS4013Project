@@ -99,7 +99,7 @@ public class RoomManager {
         while(success == false){
             TerminalLogger.logln("Enter Rates From Monday - Sunday"+ TerminalColor.ANSI_YELLOW+"(0-0-0-0-0-0-0)"+TerminalColor.ANSI_RESET);
             TerminalLogger.logln("");
-            input = TerminalLogger.textfield("Enter Mon-Tues-Wed-Thurs-Fri-Sat-Sun",width);
+            input = TerminalLogger.textfield("Enter Sun-Mon-Tues-Wed-Thurs-Fri-Sat",width);
             String []temp = input.split("-");
             if(temp.length == 7){
                 if(input.matches("(([0-9]+)(-)?)+")) {
@@ -153,7 +153,6 @@ public class RoomManager {
 
         }
 
-        new HotelManager().edit(selectedHotel.getHotelId(),selectedHotel);
         Room room = new SingleRoom(selectedHotel.getHotelId());
         if(type.equals(roomType.get(0))){
             room = new SingleRoom(selectedHotel.getHotelId());
@@ -170,7 +169,8 @@ public class RoomManager {
         room.setRate(rates);
         room.setMaxOccupancy(maxO);
         room.setMinOccupancy(minO);
-
+        selectedHotel.getRooms().add(room.getRoomId());
+        new HotelManager().edit(selectedHotel.getHotelId(),selectedHotel);
         fileManager.write(room.toString());
         TerminalLogger.logln("✓".repeat(width),TerminalColor.ANSI_GREEN);
         TerminalLogger.logln("Room Successfully Added", TerminalColor.ANSI_GREEN);
