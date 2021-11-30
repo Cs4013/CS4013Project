@@ -47,7 +47,7 @@ public class User {
           FileManager fm =  new FileManager("customers.csv");
           fm.overwrite("");
             for(User u : users){
-                if(u.userId == this.userId){
+                if(u.userId.equals(this.userId)){
                     u.wallet = this.wallet;
                     u.reservations = this.reservations;
                     u.username = this.username;
