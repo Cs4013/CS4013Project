@@ -50,7 +50,7 @@ public class RoomManager {
             input = TerminalLogger.textfield("Enter 1-"+roomType.size(),width);
             if(input.matches("[1-9]")) {
                 int n = Integer.parseInt(input);
-                if (n > 0 && n < roomType.size()) {
+                if (n > 0 && n <= roomType.size()) {
                     success = true;
                     type = roomType.get(n - 1);
                 }
