@@ -54,9 +54,11 @@ public class CustomerPrompt implements IPrompt {
             
             
     }
+
     public void checkIn(){
 
     }
+
     public void viewRoom(){
 
     }

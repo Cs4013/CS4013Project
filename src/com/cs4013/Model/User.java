@@ -22,8 +22,20 @@ public class User {
         this.reservations=new ArrayList<>();
     }
 
-    public void makeResersavtion(){
-
+    public ArrayList<Booking> getReservations(String approved){
+        ArrayList<Booking> bookings = new ArrayList<>();
+        if(approved.equals("y")){
+            bookings = new FileParser().getReservation(false);
+        }else{
+            bookings = new FileParser().getReservation(true);
+        }
+        ArrayList<Booking>myRes = new ArrayList<>();
+        for(Booking b : bookings){
+            if(this.reservations.contains(b.getBookingId())){
+                myRes.add(b);
+            }
+        }
+        return bookings;
     }
 
     public void cancelReservation(){
