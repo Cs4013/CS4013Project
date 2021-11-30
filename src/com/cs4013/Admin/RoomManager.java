@@ -124,9 +124,9 @@ public class RoomManager {
             }
         ArrayList<Hotel> hotels = new FileParser().getHotels();
         success = false;
-        String selectedHotel = "";
+        Hotel selectedHotel = new Hotel();
         if(hotels.size()>0){
-            selectedHotel = hotels.get(0).getHotelId();
+            selectedHotel = hotels.get(0);
         }
 
         while(success == false){
@@ -141,7 +141,7 @@ public class RoomManager {
             if(input.matches("[0-9]+")){
                 int n = Integer.parseInt(input);
                 if(n <= hotels.size()){
-                    selectedHotel = hotels.get(n-1).getHotelId();
+                    selectedHotel = hotels.get(n-1);
                     success = true;
                 }else{
                     TerminalLogger.logError("Please Enter Between  1-"+hotels.size());
@@ -152,19 +152,19 @@ public class RoomManager {
 
         }
 
-
-        Room room = new SingleRoom(selectedHotel);
+        new HotelManager().edit(selectedHotel.getHotelId(),selectedHotel);
+        Room room = new SingleRoom(selectedHotel.getHotelId());
         if(type.equals(roomType.get(0))){
-            room = new SingleRoom(selectedHotel);
+            room = new SingleRoom(selectedHotel.getHotelId());
         }
         else if(type.equals(roomType.get(1))){
-            room = new DoubleRoom(selectedHotel);
+            room = new DoubleRoom(selectedHotel.getHotelId());
         }
         else if(type.equals(roomType.get(2))){
-            room = new TripleRoom(selectedHotel);
+            room = new TripleRoom(selectedHotel.getHotelId());
         }
         else if(type.equals(roomType.get(3))){
-            room = new QuadRoom(selectedHotel);
+            room = new QuadRoom(selectedHotel.getHotelId());
         }
         room.setRate(rates);
         room.setMaxOccupancy(maxO);

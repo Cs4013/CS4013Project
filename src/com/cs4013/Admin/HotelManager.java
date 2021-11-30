@@ -1,13 +1,13 @@
 package com.cs4013.Admin;
 
-import com.cs4013.Misc.FileManager;
-import com.cs4013.Misc.StringUtils;
-import com.cs4013.Misc.TerminalColor;
-import com.cs4013.Misc.TerminalLogger;
+import com.cs4013.Misc.*;
 import com.cs4013.Model.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class HotelManager {
@@ -80,10 +80,29 @@ public class HotelManager {
 //
 //    public void viewHotel() {
 
+    public void edit(String hotelId, Hotel hotel)throws IOException{
+        ArrayList<Hotel> hotels = new FileParser().getHotels();
+
+        new FileManager("hotels.csv").overwrite("");
+        for(Hotel h : hotels){
+            if(hotelId.equals(h.getHotelId())){
+               h.setName(hotel.getName());
+                h.setRatings(hotel.getRatings());
+                h.setHotelId(hotel.getHotelId());
+                h.setAccount(hotel.getAccount());
+               h.setRooms(hotel.getRooms());
+
+            }
+            new FileManager("hotels.csv").write(h.toString());
+        }
+
+
+    }
     public void editHotel() {
         TerminalLogger.logln("+".repeat(width));
         TerminalLogger.logln(StringUtils.centerString("Admin Control Centre | Edit Hotel", 48, "|"));
         TerminalLogger.logln("+".repeat(width) + "\n");
+
     }
 
     public void deleteHotel() {

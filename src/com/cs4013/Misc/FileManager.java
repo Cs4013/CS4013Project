@@ -79,4 +79,12 @@ public class FileManager {
 
         
     }
+    public void overwrite(String writing)throws IOException{
+        File file = new File("./src/com/cs4013/Misc/"+filename);
+        FileWriter words = new FileWriter(file);
+        words.write(writing+"\n");
+        words.close();
+
+
+    }
 }
