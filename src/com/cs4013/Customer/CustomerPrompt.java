@@ -60,6 +60,7 @@ public class CustomerPrompt implements IPrompt {
             
     }
 
+
     public void checkIn(){
 
     }

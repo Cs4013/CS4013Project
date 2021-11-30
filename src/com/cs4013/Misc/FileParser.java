@@ -58,6 +58,7 @@ public class FileParser {
                 room.setRoomId(r.get(0));
                 room.setType(roomType);
                 room.setHotelId(hotelId);
+
                 room.setMinOccupancy(Integer.parseInt(r.get(4)));
                 room.setMaxOccupancy(Integer.parseInt(r.get(5)));
                 String[] rates = r.get(3) .split("_");
@@ -136,6 +137,7 @@ public class FileParser {
               booking.setBookingType(r.get(6));
               booking.setTotalCost(Integer.parseInt(r.get(7)));
               booking.setApproved(Boolean.getBoolean(r.get(8)));
+              booking.setCheckedIn(Boolean.getBoolean(r.get(9)));
               if(all){
                   bookings.add(booking);
               }else{
