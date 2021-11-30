@@ -12,9 +12,10 @@ public abstract class Room{
     protected Rates rate;
     protected int minOccupancy;
     protected int maxOccupancy;
-    protected ArrayList<Booking> bookings;
+    protected ArrayList<String> bookings;
 
     public Room(String hotelId){
+
         this.roomId = UUID.randomUUID().toString();
         this.type = "";
         this.rate = new Rates();
@@ -22,6 +23,14 @@ public abstract class Room{
         this.bookings = new ArrayList<>();
         this.minOccupancy = 1;
         this.maxOccupancy = 4;
+    }
+
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getRoomId(){
@@ -56,11 +65,19 @@ public abstract class Room{
         return maxOccupancy;
     }
 
-    public ArrayList<Booking> getBookings(){
+    public void setMinOccupancy(int minOccupancy) {
+        this.minOccupancy = minOccupancy;
+    }
+
+    public void setMaxOccupancy(int maxOccupancy) {
+        this.maxOccupancy = maxOccupancy;
+    }
+
+    public ArrayList<String> getBookings(){
         return bookings;
     }
 
-    public void setBookings(ArrayList<Booking> bookings){
+    public void setBookings(ArrayList<String> bookings){
         this.bookings = bookings;
     }
 
@@ -74,8 +91,8 @@ public abstract class Room{
 
     public String toString(){
         String bks="";
-        for (Booking b : bookings){
-            bks+=b.toString()+"_";
+        for (String b : bookings){
+            bks+=b+"_";
         }
         String B = "";
         if(!bks.equals("")){

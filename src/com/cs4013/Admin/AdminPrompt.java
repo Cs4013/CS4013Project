@@ -4,6 +4,7 @@ import com.cs4013.Interface.IPrompt;
 import com.cs4013.Misc.StringUtils;
 import com.cs4013.Misc.TerminalColor;
 import com.cs4013.Misc.TerminalLogger;
+import com.cs4013.Model.Hotel;
 
 import java.io.IOException;
 import java.util.*;
@@ -18,6 +19,7 @@ public class AdminPrompt implements IPrompt {
     ArrayList<String> prevPath = new ArrayList<String>();
     int width = 50;
     private RoomManager roomManager = new RoomManager();
+    private HotelManager hotelManager = new HotelManager();
 
     public AdminPrompt(){
         populateNavStack();
@@ -75,6 +77,9 @@ public class AdminPrompt implements IPrompt {
     public boolean addRoom()throws IOException{
         return  roomManager.addRoom();
     }
+    public boolean addHotel()throws IOException{
+        return hotelManager.addHotel();
+    }
     public void editRoom(){
 
     }
@@ -106,6 +111,16 @@ public class AdminPrompt implements IPrompt {
 
             }
             break;
+            case "AH":
+                try{
+                    if(!addHotel()){
+                        goBack();
+                    }
+
+                }catch(IOException e){
+
+                }
+                break;
             case "EH":
             editRoom();
             case "VH":

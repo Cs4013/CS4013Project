@@ -1,6 +1,7 @@
 package com.cs4013.Model;
 
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Booking {
@@ -10,19 +11,23 @@ public class Booking {
     private long checkOutDate;
     private String roomId;
     private String hotelId;
+    private String bookingType;
+    private int totalCost;
 
     public Booking() {
     }
 
-    public Booking( String roomId, long checkInTime, long checkOutDate) {
+    public Booking(String roomId, long checkInTime, long checkOutDate) {
         this.checkInTime = checkInTime;
         this.checkOutDate = checkOutDate;
         this.roomId = roomId;
         this.userId = "";
         this.hotelId = "";
+        this.bookingType = "S";
+        this.totalCost = 0;
     }
 
-    public Booking(long checkInTime, long checkOutDate, String roomId,String userId,
+    public Booking(String roomId, long checkInTime, long checkOutDate, String userId,
                    String hotelId) {
         this.userId = userId;
         this.bookingId = UUID.randomUUID().toString();
@@ -30,6 +35,24 @@ public class Booking {
         this.checkOutDate = checkOutDate;
         this.roomId = roomId;
         this.hotelId = hotelId;
+        this.bookingType = "S";
+        this.totalCost = 0;
+    }
+
+    public int getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(int totalCost) {
+        this.totalCost = totalCost;
+    }
+
+    public String getBookingType() {
+        return bookingType;
+    }
+
+    public void setBookingType(String bookingType) {
+        this.bookingType = bookingType;
     }
 
     public String getUserId() {
@@ -81,7 +104,8 @@ public class Booking {
     }
 
     public String toString(){
-        return bookingId+","+userId+","+roomId+","+hotelId+","+checkInTime+","+checkOutDate;
+
+        return bookingId+","+userId+","+roomId+","+hotelId+","+checkInTime+","+checkOutDate+","+bookingType+","+totalCost;
     }
 
 
