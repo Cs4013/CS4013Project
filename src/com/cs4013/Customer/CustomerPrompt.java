@@ -25,7 +25,12 @@ public class CustomerPrompt implements IPrompt {
     }
     @Override
     public void execute(){
+        while(keepGoing)
+        {
+            if(!keepGoing){
 
+            }
+        }
     }
 }
 

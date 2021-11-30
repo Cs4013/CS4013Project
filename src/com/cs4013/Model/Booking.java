@@ -9,7 +9,7 @@ public class Booking {
     private String bookingId;
     private long checkInTime;
     private long checkOutDate;
-    private ArrayList<String> roomId;
+    private String roomId;
     private String hotelId;
     private String bookingType;
     private int totalCost;
@@ -17,23 +17,23 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking( long checkInTime, long checkOutDate) {
+    public Booking(String roomId, long checkInTime, long checkOutDate) {
         this.checkInTime = checkInTime;
         this.checkOutDate = checkOutDate;
-        this.roomId = new ArrayList<>();
+        this.roomId = roomId;
         this.userId = "";
         this.hotelId = "";
         this.bookingType = "S";
         this.totalCost = 0;
     }
 
-    public Booking(long checkInTime, long checkOutDate, String userId,
+    public Booking(String roomId, long checkInTime, long checkOutDate, String userId,
                    String hotelId) {
         this.userId = userId;
         this.bookingId = UUID.randomUUID().toString();
         this.checkInTime = checkInTime;
         this.checkOutDate = checkOutDate;
-        this.roomId = new ArrayList<>();
+        this.roomId = roomId;
         this.hotelId = hotelId;
         this.bookingType = "S";
         this.totalCost = 0;
@@ -87,11 +87,11 @@ public class Booking {
         this.checkOutDate = checkOutDate;
     }
 
-    public ArrayList<String> getRoomId() {
+    public String getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(ArrayList<String> roomId) {
+    public void setRoomId(String roomId) {
         this.roomId = roomId;
     }
 
@@ -104,14 +104,8 @@ public class Booking {
     }
 
     public String toString(){
-        String bk = "";
-        for(String s : roomId){
-            bk+=s+"_";
-        }
-        if(roomId.size() > 0){
-            bk = bk.substring(0,roomId.size()-1);
-        }
-        return bookingId+","+userId+","+bk+","+hotelId+","+checkInTime+","+checkOutDate+","+bookingType+","+totalCost;
+
+        return bookingId+","+userId+","+roomId+","+hotelId+","+checkInTime+","+checkOutDate+","+bookingType+","+totalCost;
     }
 
 
