@@ -11,6 +11,7 @@ import com.cs4013.Misc.CurrentUser;
 import com.cs4013.Misc.StringUtils;
 import com.cs4013.Misc.TerminalColor;
 import com.cs4013.Misc.TerminalLogger;
+import com.cs4013.Model.Booking;
 
 public class CustomerPrompt implements IPrompt {
 
@@ -61,8 +62,11 @@ public class CustomerPrompt implements IPrompt {
 
     public void viewRoom(){
         ArrayList <String> bookingId = CurrentUser.user.reservations;
-        String Input = TerminalLogger.textfield("Do you want to see all approved reservations", 50);
-        
+        String input = TerminalLogger.textfield("Do you want to see all approved reservations", 50);
+        ArrayList<Booking> bookings = CurrentUser.user.getReservations(input);
+        for(Booking b: bookings){
+            
+        } 
 
 
 
