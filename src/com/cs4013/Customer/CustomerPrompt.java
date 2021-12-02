@@ -83,7 +83,7 @@ public class CustomerPrompt implements IPrompt {
         if(bookings.size()>0){
             boolean b = false;
             while(!b){
-                viewRoom(true);
+                viewRoom(true,"y");
                 String s = TerminalLogger.textfield("Enter 1-"+bookings.size(),width);
                 if(s.matches("[0-9]+")) {
                     int n = Integer.parseInt(s)-1;
@@ -131,12 +131,12 @@ public class CustomerPrompt implements IPrompt {
         return null;
     }
 
-    public void viewRoom(boolean hide){
+    public void viewRoom(boolean hide,String approved){
         TerminalLogger.logln("+".repeat(width));
         TerminalLogger.logln(StringUtils.centerString(CurrentUser.user.username + " | "+" View reservations",width-2));
         TerminalLogger.logln("+".repeat(width));
         ArrayList <String> bookingId = CurrentUser.user.reservations;
-        String input = "y";
+        String input = approved;
         if(!hide){
             input = TerminalLogger.textfield("Do you want to see only approved reservations? y/n", 50);
        }
@@ -175,7 +175,7 @@ public class CustomerPrompt implements IPrompt {
         TerminalLogger.logln("+".repeat(width));
         ArrayList<Booking> bookings = CurrentUser.user.getReservations("y");
 
-        viewRoom(true);
+        viewRoom(true,"y");
 
         String input = "";
         boolean b = false;
@@ -259,9 +259,9 @@ public class CustomerPrompt implements IPrompt {
         TerminalLogger.logln(StringUtils.centerString(CurrentUser.user.username + " | "+" Cancel Reservation",width-2));
         TerminalLogger.logln("+".repeat(width));
 
-        ArrayList<Booking> bookings = CurrentUser.user.getReservations("y");
+        ArrayList<Booking> bookings = CurrentUser.user.getReservations("n");
 
-        viewRoom(true);
+        viewRoom(true,"n");
 
         String input = "";
         boolean b = false;
@@ -286,7 +286,7 @@ public class CustomerPrompt implements IPrompt {
                             if(checkin48.before(checkin)){
                                 //cancel
                                 //refund
-                                if(bk.getBookingType().equals("AR")){
+                                if(bk.getBookingType().equals("S")){
                                     CurrentUser.user.wallet+=bk.getTotalCost();
                                     CurrentUser.user.updateUser();
                                     Hotel hotel = getHotel(bk.getHotelId());
@@ -407,7 +407,7 @@ public class CustomerPrompt implements IPrompt {
                     checkIn();
                     break;
                 case "VR":
-                    viewRoom(false);
+                    viewRoom(false,"y");
                     break;
                 case "CR":
                     cancelReservation();
