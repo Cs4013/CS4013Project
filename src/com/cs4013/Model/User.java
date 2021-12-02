@@ -30,7 +30,7 @@ public class User {
         }else{
             bookings = new FileParser().getReservation(true);
         }
-        System.out.println(bookings);
+
         ArrayList<Booking>myRes = new ArrayList<>();
         for(Booking b : bookings){
             if(this.reservations.contains(b.getBookingId())){

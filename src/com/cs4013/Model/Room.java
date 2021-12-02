@@ -102,6 +102,8 @@ public abstract class Room{
         }
         return roomId+","+hotelId+","+type+","+rate.toString("_")+","+minOccupancy+","+maxOccupancy+","+B;
     }
-    }
+
+
+}
 
 

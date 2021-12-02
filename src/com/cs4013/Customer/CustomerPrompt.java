@@ -68,6 +68,7 @@ public class CustomerPrompt implements IPrompt {
 
     }
     public void printDefiniton(String command){
+        TerminalLogger.logln(CurrentUser.user.username + " | "+ CurrentUser.user.wallet,TerminalColor.ANSI_PURPLE);
         for(String s : navStack.get(command)){
            TerminalLogger.logln(definition.get(s), TerminalColor.ANSI_CYAN);
         }
@@ -78,24 +79,24 @@ public class CustomerPrompt implements IPrompt {
 
     public void checkIn(){
         ArrayList<Booking> bookings = CurrentUser.user.getReservations("y");
-        System.out.println(bookings);
+
         if(bookings.size()>0){
             boolean b = false;
             while(!b){
-                viewRoom();
+                viewRoom(true);
                 String s = TerminalLogger.textfield("Enter 1-"+bookings.size(),width);
                 if(s.matches("[0-9]+")) {
-                    int n = Integer.parseInt(s);
-                    if (n > 0 && n <= bookings.size()) {
+                    int n = Integer.parseInt(s)-1;
+                    if (n < bookings.size()) {
                         bookings.get(n).setCheckedIn(true);
                         new ReservationManager().update(bookings.get(n));
                         b = true;
                     } else {
-                        TerminalLogger.logError("Please \"Enter 1-\"+bookings.size(),width ");
+                        TerminalLogger.logError("Please \"Enter 1-"+bookings.size());
                     }
                 }
                 else{
-                        TerminalLogger.logError("Please \"Enter 1-\"+bookings.size(),width ");
+                        TerminalLogger.logError("Please \"Enter 1-"+bookings.size());
 
                 }
             }
@@ -130,12 +131,15 @@ public class CustomerPrompt implements IPrompt {
         return null;
     }
 
-    public void viewRoom(){
+    public void viewRoom(boolean hide){
         TerminalLogger.logln("+".repeat(width));
         TerminalLogger.logln(StringUtils.centerString(CurrentUser.user.username + " | "+" View reservations",width-2));
         TerminalLogger.logln("+".repeat(width));
         ArrayList <String> bookingId = CurrentUser.user.reservations;
-        String input = TerminalLogger.textfield("Do you want to see all approved reservations? y/n", 50);
+        String input = "y";
+        if(!hide){
+            input = TerminalLogger.textfield("Do you want to see only approved reservations? y/n", 50);
+       }
         ArrayList<Booking> bookings = CurrentUser.user.getReservations(input);
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         if(bookings.size() < 1)
@@ -148,29 +152,18 @@ public class CustomerPrompt implements IPrompt {
                 Room r = getRoom(b.getRoomId());
                 long cin  = b.getCheckInTime();
                 long cout = b.getCheckOutDate();
+                String tick="";
+                if(b.isCheckedIn()) tick = "✓";
                 TerminalLogger.log(i+") ", TerminalColor.ANSI_PURPLE);
                 TerminalLogger.log(h.getName()+" ", TerminalColor.ANSI_PURPLE);
                 TerminalLogger.log(r.getType()+" ", TerminalColor.ANSI_YELLOW);
                 TerminalLogger.log(format.format(cin)+"-"+format.format(cout), TerminalColor.ANSI_BLUE);
+                TerminalLogger.log(" "+tick, TerminalColor.ANSI_GREEN);
                 TerminalLogger.logln("");
                 i++;
             }
         }
 
-
-        int i = 1;
-        for(Booking b: bookings){
-            Hotel h = getHotel(b.getHotelId());
-            Room r = getRoom(b.getRoomId());
-            long cin  = b.getCheckInTime();
-            long cout = b.getCheckOutDate();
-            TerminalLogger.log(i+") ", TerminalColor.ANSI_PURPLE);
-            TerminalLogger.log(h.getName()+" ", TerminalColor.ANSI_PURPLE);
-            TerminalLogger.log(r.getType()+" ", TerminalColor.ANSI_YELLOW);
-            TerminalLogger.log(format.format(cin)+"-"+format.format(cout), TerminalColor.ANSI_BLUE);
-            TerminalLogger.logln("");
-            i++;
-        }
         TerminalLogger.logln("=".repeat(width));
 
         goBack();
@@ -182,7 +175,7 @@ public class CustomerPrompt implements IPrompt {
         TerminalLogger.logln("+".repeat(width));
         ArrayList<Booking> bookings = CurrentUser.user.getReservations("y");
 
-        viewRoom();
+        viewRoom(true);
 
         String input = "";
         boolean b = false;
@@ -268,7 +261,7 @@ public class CustomerPrompt implements IPrompt {
 
         ArrayList<Booking> bookings = CurrentUser.user.getReservations("y");
 
-        viewRoom();
+        viewRoom(true);
 
         String input = "";
         boolean b = false;
@@ -280,9 +273,9 @@ public class CustomerPrompt implements IPrompt {
             while(!b){
                 input = TerminalLogger.textfield("Enter 1-"+bookings.size(),50);
                 if(input.matches("[0-9]+")){
-                    int n = Integer.parseInt(input);
-                    if(n > 0 && n <= bookings.size()){
-                        Booking bk = bookings.get(n);
+                    int n = Integer.parseInt(input)-1;
+                    if( n <= bookings.size()){
+                        Booking bk = bookings.remove(n);
                         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                         try {
                             Date checkin = format.parse(new SimpleDateFormat("dd/MM/yyyy").format(bk.getCheckInTime()));
@@ -319,11 +312,6 @@ public class CustomerPrompt implements IPrompt {
                                     TerminalLogger.logln("✓".repeat(width),TerminalColor.ANSI_GREEN);
                                     TerminalLogger.logln("Refund Rewarded Successfully", TerminalColor.ANSI_GREEN);
                                     TerminalLogger.logln("✓".repeat(width) + "\n",TerminalColor.ANSI_GREEN);
-                                    b=true;
-                                }else {
-                                    TerminalLogger.logError("_".repeat(width));
-                                    TerminalLogger.logError("You are not entitled to a refund, unfortunately");
-                                    TerminalLogger.logError("_".repeat(width) + "\n");
 
                                 }
                             }else {
@@ -332,9 +320,37 @@ public class CustomerPrompt implements IPrompt {
                                 TerminalLogger.logError("_".repeat(width) + "\n");
 
                             }
+
+                            int i = -1;
+                            for(String s : CurrentUser.user.reservations){
+                                i+=1;
+                                if(bk.getBookingId().equals(s)){
+                                    break;
+                                }
+                            }
+                            if(i>-1){
+                                CurrentUser.user.reservations.remove(i);
+                                CurrentUser.user.updateUser();
+                            }
+                            i=-1;
+                            new ReservationManager().update(bk);
+                            for(String s : getRoom(bk.getRoomId()).getBookings()){
+                                i+=1;
+                                if(bk.getBookingId().equals(s)){
+                                    break;
+                                }
+                            }
+                            if(i>-1){
+                                getRoom(bk.getRoomId()).getBookings().remove(i);
+                                new RoomManager().edit(getRoom(bk.getRoomId()));
+                            }
+                            b=true;
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
+                        TerminalLogger.logln("✓".repeat(width),TerminalColor.ANSI_GREEN);
+                        TerminalLogger.logln("Booking Canceled", TerminalColor.ANSI_GREEN);
+                        TerminalLogger.logln("✓".repeat(width) + "\n",TerminalColor.ANSI_GREEN);
 
 
                     }else{
@@ -391,7 +407,7 @@ public class CustomerPrompt implements IPrompt {
                     checkIn();
                     break;
                 case "VR":
-                    viewRoom();
+                    viewRoom(false);
                     break;
                 case "CR":
                     cancelReservation();

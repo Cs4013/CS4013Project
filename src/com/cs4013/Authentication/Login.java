@@ -63,7 +63,8 @@ public class Login {
             for(ArrayList<String> user: data){
                 User u = new User(user.get(0));
                 u.password = user.get(2);
-                u.wallet = 0;
+                //Mistake in sent code, wallet was initialized to 0
+                u.wallet = Integer.parseInt(user.get(3));
                 u.username = user.get(1);
                 if(user.size()>4)
                  u.reservations= new ArrayList<>(Arrays.asList(user.get(4).split("_")));
