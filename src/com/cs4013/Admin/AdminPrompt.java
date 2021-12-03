@@ -39,8 +39,8 @@ public class AdminPrompt implements IPrompt {
     }
     private void populateNavStack(){
 
-        definition.put("MR","Enter MR to Modifify Rooms");
-        definition.put("MH", "Enter MH to Modify Hotels"); 
+        definition.put("MR","Enter MR to Modify Rooms");
+        definition.put("MH", "Enter MH to Modify Hotels");
         definition.put("AH","Enter AH for data analysis for hotel" );
         definition.put("AB","Enter AB for approve booking for room" );
 
