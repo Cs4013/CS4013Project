@@ -82,12 +82,41 @@ public class FileParser {
                     room.setBookings( new ArrayList<String>(Arrays.asList(bks)));
 
                 }
-                rooms.add(room);
+                //Modified: Only Added Rooms that have valid hotels
+               if(getHotel(room.getHotelId())!=null){
+                   rooms.add(room);
+                }
+
             }
         }catch(IOException e){
 
         }
         return rooms;
+    }
+    public Hotel getHotel(String hotelId){
+
+        ArrayList<Hotel> hotels = getHotels();
+        Hotel s=null;
+        for(Hotel hotel : hotels){
+            if(hotel.getHotelId().equals(hotelId)){
+                s=hotel;
+                break;
+            }
+        }
+        return s;
+    }
+    public Room getRoom(String roomId){
+
+        ArrayList<Room> rooms = getRooms();
+        Room s=null;
+        for(Room hotel : rooms){
+
+            if(hotel.getRoomId().equals(roomId)){
+                s=hotel;
+                break;
+            }
+        }
+        return s;
     }
     public ArrayList<Hotel> getHotels(){
         ArrayList<Hotel> hotels = new ArrayList<>();
@@ -144,10 +173,11 @@ public class FileParser {
               booking.setBookingId(r.get(0));
               booking.setUserId(r.get(1));
               booking.setHotelId(r.get(3));
+              booking.setRoomId(r.get(2));
               booking.setBookingType(r.get(6));
               booking.setTotalCost(Integer.parseInt(r.get(7)));
-              booking.setApproved(Boolean.getBoolean(r.get(8)));
-              booking.setCheckedIn(Boolean.getBoolean(r.get(9)));
+              booking.setApproved(Boolean.parseBoolean(r.get(8).trim()));
+              booking.setCheckedIn(Boolean.parseBoolean(r.get(9).trim()));
               if(all){
                   bookings.add(booking);
               }else{
@@ -156,6 +186,60 @@ public class FileParser {
                   }
 
               }
+
+
+            }
+        }catch(IOException e){
+
+        }
+
+        return bookings;
+
+    }
+    public User getUser(String userId){
+        ArrayList<User> users = getUsers();
+        for(User user : users)
+        {
+
+            if(user.userId.equals(userId)){
+                return user;
+            }
+
+        }
+        return null;
+    }
+
+    public ArrayList<Booking> getReservation(String status){
+        ArrayList<Booking> bookings = new ArrayList<>();
+
+        io = new FileManager("bookings.csv");
+        try{
+            ArrayList<ArrayList<String>> rms = io.readCsv();
+            for(ArrayList<String> r : rms){
+
+
+                Booking booking = new Booking(r.get(2),Long.parseLong(r.get(4)),Long.parseLong(r.get(5)));
+                booking.setBookingId(r.get(0));
+                booking.setUserId(r.get(1));
+                booking.setRoomId(r.get(2));
+                booking.setHotelId(r.get(3));
+                booking.setBookingType(r.get(6));
+                booking.setTotalCost(Integer.parseInt(r.get(7)));
+                booking.setApproved(Boolean.getBoolean(r.get(8)));
+                booking.setCheckedIn(Boolean.getBoolean(r.get(9)));
+                //System.out.println("Room->"+booking.getRoomId());
+                if(status.equals("all")){
+                    bookings.add(booking);
+                }else if(status.equals("approved")){
+                    if(booking.isApproved()){
+                        bookings.add(booking);
+                    }
+
+                }else{
+                    if(!booking.isApproved()){
+                        bookings.add(booking);
+                    }
+                }
 
 
             }

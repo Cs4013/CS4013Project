@@ -1,10 +1,10 @@
 package com.cs4013.Admin;
 
+import com.cs4013.Customer.BookingManager;
+import com.cs4013.Customer.ReservationManager;
 import com.cs4013.Interface.IPrompt;
 import com.cs4013.Misc.*;
-import com.cs4013.Model.Hotel;
-import com.cs4013.Model.HotelAccount;
-import com.cs4013.Model.Room;
+import com.cs4013.Model.*;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -39,9 +39,10 @@ public class AdminPrompt implements IPrompt {
     }
     private void populateNavStack(){
 
-        definition.put("MR","Enter MR to Modifify Rooms");
-        definition.put("MH", "Enter MH to Modify Hotels"); 
+        definition.put("MR","Enter MR to Modify Rooms");
+        definition.put("MH", "Enter MH to Modify Hotels");
         definition.put("AH","Enter AH for data analysis for hotel" );
+        definition.put("AB","Enter AB for approve booking for room" );
 
         definition.put("AR","Enter AR to Add Rooms");
         definition.put("ER","Enter ER to Edit Rooms");
@@ -59,6 +60,7 @@ public class AdminPrompt implements IPrompt {
         init.add("MR");
         init.add("MH");
         init.add("AH");
+        init.add("AB");
         navStack.put("/",init);
 
          init = new ArrayList<>();
@@ -215,6 +217,59 @@ public class AdminPrompt implements IPrompt {
 
         goBack();
     }
+    public void aproveBooking(){
+        ArrayList<Booking> bookings = new FileParser().getReservation("n_approved");
+        TerminalLogger.logln("-".repeat(50));
+        TerminalLogger.logln(StringUtils.centerString("Approve Booking", 48, "|"));
+        TerminalLogger.logln("-".repeat(50) + "\n");
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        boolean succes = false;
+        String input = "";
+        while(!succes){
+            int i = 0;
+
+            for(Booking b : bookings){
+
+                TerminalLogger.log((i+1)+") ",TerminalColor.ANSI_YELLOW);
+                Hotel h = new FileParser().getHotel(b.getHotelId());
+                Room r = new FileParser().getRoom(b.getRoomId());
+                User u = new FileParser().getUser(b.getUserId());
+                TerminalLogger.logln("Username: "+u.username+" | Hotel:"+h.getName()+" | Room Type: "+r.getType()+" | Dates: "+ format.format(b.getCheckInTime())+"-"+format.format(b.getCheckOutDate()),TerminalColor.ANSI_BLUE);
+                i++;
+            }
+            input = TerminalLogger.textfield("Please Enter Room 1-"+bookings.size(),width);
+            if(input.matches("[1-9]+")){
+                int n = Integer.parseInt(input)-1;
+                if(n<bookings.size()&&n>-1){
+
+                    Booking bk =  bookings.get(n);
+                    bk.setApproved(true);
+                    new ReservationManager().update(bk);
+
+
+                    String s = TerminalLogger.textfield("Are you sure you want approve this booking? y/n",width);
+                    if(s.equals("y")){
+                        TerminalLogger.logln("✓".repeat(width),TerminalColor.ANSI_GREEN);
+                        TerminalLogger.logln("Room Successfully Added", TerminalColor.ANSI_GREEN);
+                        TerminalLogger.logln("✓".repeat(width) + "\n",TerminalColor.ANSI_GREEN);
+                        succes = true;
+                        goBack();
+                    }
+                }
+                else{
+                    TerminalLogger.logError("Booking Approved"+bookings.size());
+                }
+
+
+
+
+            }else{
+                TerminalLogger.logError("Invalid Number Entered 1-"+bookings.size());
+            }
+
+        }
+    }
     @Override
     public void  display(String command){
         switch(command){
@@ -230,6 +285,9 @@ public class AdminPrompt implements IPrompt {
             break;
             case "AH":
                 analyzeHotel();
+                break;
+            case "AB":
+                aproveBooking();
                 break;
             case "ADH":
                 try{

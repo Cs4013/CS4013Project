@@ -14,12 +14,8 @@ import java.util.Map;
 import javax.swing.plaf.metal.MetalBorders.TextFieldBorder;
 
 import com.cs4013.Admin.HotelManager;
-import com.cs4013.Misc.FileManager;
-import com.cs4013.Misc.FileParser;
-import com.cs4013.Misc.Formats;
-import com.cs4013.Misc.StringUtils;
-import com.cs4013.Misc.TerminalColor;
-import com.cs4013.Misc.TerminalLogger;
+import com.cs4013.Admin.RoomManager;
+import com.cs4013.Misc.*;
 import com.cs4013.Model.Booking;
 import com.cs4013.Model.Hotel;
 import com.cs4013.Model.HotelAccount;
@@ -179,31 +175,30 @@ break;
         bookingMap.put(b.getBookingId(), res );
 
     }
-  
+
 
     for (Room r: rooms){
-      
+        //Modified Code. Removes Any Empty Rooms
         if(r.getBookings().size()>0){
-                for(String l: r.getBookings()){
-              
+            for(String l: r.getBookings()){
 
-            if (checkAvailability(checkinDate.getTime(), 
-            checkoutDate.getTime(), 
+            if (checkAvailability(checkinDate.getTime(),
+            checkoutDate.getTime(),
             bookingMap.get(l)[0],
             bookingMap.get(l)[1]))  {
 
                 availableRooms.add(r);
-                
+
             }
             else break;
-                    
+
             }
         }
         else{
             availableRooms.add(r);
         }
-      
-       
+
+
 
     }
    
@@ -219,11 +214,13 @@ break;
 
     for(Room rm : availableRooms){
         TerminalLogger.log((index+1)+") ",TerminalColor.ANSI_CYAN);
-        index++;
-        TerminalLogger.logln(">".repeat(50));
-        printRoomDetails(rm,rMap,checkinDate,checkoutDate);
-        TerminalLogger.logln("<".repeat(50));
-        TerminalLogger.log("\n");
+            index++;
+            TerminalLogger.logln(">".repeat(50));
+            printRoomDetails(rm,rMap,checkinDate,checkoutDate);
+            TerminalLogger.logln("<".repeat(50));
+            TerminalLogger.log("\n");
+
+
         
     }
 
@@ -303,10 +300,11 @@ break;
            TerminalLogger.logln("=".repeat(50));
            TerminalLogger.logln("Your Purchase");
            TerminalLogger.logln("=".repeat(50));
-           int total = printRoomDetails(availableRooms.get(selectedRoomIndex), rMap, checkinDate, checkoutDate);
+           int total = getRoomRatesForDates(availableRooms.get(selectedRoomIndex), rMap, checkinDate, checkoutDate);
+           int T =  (int)(total - (total * discount));
            TerminalLogger.logln("Discount: " + total * discount);
            TerminalLogger.logln("-".repeat(50));
-           TerminalLogger.logln("TOTAL: " + (total - (total * discount)));
+           TerminalLogger.logln("TOTAL: " + T);
            TerminalLogger.logln("-".repeat(50));
            //Enter Password
            int attempt = 2;
@@ -314,7 +312,11 @@ break;
            while (attempt > 0) {
                input = TerminalLogger.textfield("Confirm Password", 50);
                if (input.matches(currentUser.password)) {
-                   success = true;//check if Transaction is valid
+                   if(CurrentUser.user.wallet >= T ){
+                       CurrentUser.user.wallet = Math.max(0,CurrentUser.user.wallet - T);
+                       success = true;
+                   }
+                   //check if Transaction is valid
                    break;
                } else {
                    attempt--;
@@ -338,6 +340,8 @@ break;
                    fm.write(booking.toString());
                    currentUser.reservations.add(booking.getBookingId());
                    currentUser.updateUser();
+                    CurrentUser.user = currentUser;
+
                    HotelAccount hotelAccount = new HotelAccount();
                    hotelAccount.setAmountPayed((int) (total - (total * discount)));
                    hotelAccount.setDatePayed(today.getTime());
@@ -345,6 +349,7 @@ break;
                    hotelAccount.setUserId(currentUser.userId);
 
                    new HotelManager().edit(hotelAccount.getHotelId(), getHotel(hotelAccount.getHotelId()));
+                   new RoomManager().edit(new FileParser().getRoom(booking.getRoomId()));
 
                    TerminalLogger.logln("✓".repeat(50), TerminalColor.ANSI_GREEN);
                    TerminalLogger.logln("Booked Room Successfully, Your Reservation will be confirmed soon.\nThank You", TerminalColor.ANSI_GREEN);
@@ -361,7 +366,43 @@ break;
    }
 
 }
+    public int getRoomRatesForDates(Room rm, Map<Integer,Integer> rMap,Date checkinDate,Date checkoutDate ){
+        Hotel h =getHotel(rm.getHotelId());
+        int totalRates = -1;
+        if(h!=null){
+            totalRates = 0;
+            rMap.put(0, rm.getRate().getSunday());
+            rMap.put(1, rm.getRate().getMonday());
+            rMap.put(2, rm.getRate().getTuesday());
+            rMap.put(3, rm.getRate().getWednesday());
+            rMap.put(4, rm.getRate().getThursday());
+            rMap.put(5, rm.getRate().getFriday());
+            rMap.put(6, rm.getRate().getSaturday());
 
+
+            Calendar start = Calendar.getInstance();
+            start.setTime(checkinDate);
+            Calendar end = Calendar.getInstance();
+            end.setTime(checkoutDate);
+
+            //Print retes for days in between cin - cout
+
+            for (Date date = start.getTime(); start.before(end); start.add(Calendar.DATE, 1), date = start.getTime()) {
+                // Do your job here with `date`.
+                Calendar temp = Calendar.getInstance();
+                temp.setTime(date);
+                int curDay = temp.get(Calendar.DAY_OF_WEEK)-1;
+                TerminalLogger.logln("\t"+dMap.get(curDay)+": \t \u20AC"+rMap.get(curDay),TerminalColor.ANSI_YELLOW);
+                totalRates+= rMap.get(curDay);
+            }
+
+
+        }else{
+            return -1;
+        }
+
+        return totalRates;
+    }
 public int printRoomDetails(Room rm, Map<Integer,Integer> rMap,Date checkinDate,Date checkoutDate ){
     Hotel h =getHotel(rm.getHotelId());
     int totalRates = -1;
@@ -399,7 +440,7 @@ public int printRoomDetails(Room rm, Map<Integer,Integer> rMap,Date checkinDate,
         TerminalLogger.log("");
 
     }else{
-      
+      return -1;
     }
    
         return totalRates;

@@ -15,6 +15,29 @@ public class RoomManager {
 
     public RoomManager() {
     }
+    public  void edit(Room room){
+        ArrayList<Room> rooms = new FileParser().getRooms();
+
+        try {
+            new FileManager("rooms.csv").overwrite("");
+            for(Room h : rooms){
+
+                if(room.getRoomId().equals(h.getHotelId())){
+                    h.setType(room.getType());
+                    h.setBookings(room.getBookings());
+                    h.setHotelId(room.getHotelId());
+                    h.setMaxOccupancy(room.getMaxOccupancy());
+                    h.setMinOccupancy(room.getMinOccupancy());
+                    h.setRate(room.getRate());
+                }
+                new FileManager("rooms.csv").write(h.toString());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
     public boolean addRoom()throws IOException {
         boolean keepGoing = false;

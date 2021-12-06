@@ -12,6 +12,21 @@ public class ReservationManager  {
     public ReservationManager (){
         
     }
+    public void remove(Booking booking){
+        ArrayList<Booking> bookings = new FileParser().getReservation(true);
+        try {
+            new FileManager("bookings.csv").overwrite("");
+            for(Booking b : bookings){
+
+                if(!booking.getBookingId().equals(b.getBookingId())){
+                    new FileManager("bookings.csv").write(b.toString());
+                }
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void update(Booking booking){
         ArrayList<Booking> bookings = new FileParser().getReservation(true);
         try {
@@ -32,7 +47,7 @@ public class ReservationManager  {
 
 
                 }
-                new FileManager("hotels.csv").write(b.toString());
+                new FileManager("bookings.csv").write(b.toString());
             }
         } catch (IOException e) {
             e.printStackTrace();
